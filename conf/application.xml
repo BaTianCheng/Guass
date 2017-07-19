@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application port="15050">     
+    
+    <!--  详细配置说明见： http://redkale.org/redkale.html#redkale_confxml  -->
+    
+    <resources>       
+        <!-- 
+        <properties>
+            <property name="system.property.convert.json.tiny" value="true"/>
+        </properties>
+        -->
+    </resources> 
+    
+    
+    <server protocol="HTTP" host="0.0.0.0" port="16060" root="root">  
+        <!--
+        <request>
+            <remoteaddr value="request.headers.X-RemoteAddress"/>
+        </request>
+        <response>
+            <addheader name="X-Node" value="system.property.APP_NODE" />             
+            <addheader name="Access-Control-Allow-Origin" value="request.headers.Origin" /> 
+            <setheader name="Access-Control-Allow-Credentials" value="true"/> 
+        </response>
+        -->
+        <services autoload="true"/>
+        <servlets path="/esb" autoload="true" >
+            <!--
+            <resource-servlet>
+                <caches  limit="0"/>
+                <rewrite type="location" match="^/([^-]+)(-[^-\.]+)+\.html(.*)" forward="/$1.html"/>
+            </resource-servlet>            
+            -->
+        </servlets>
+    </server>
+</application>

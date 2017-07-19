@@ -1,0 +1,17 @@
+2017-07-19 23:01:59.838 INFO [main] org.redkale.boot.Application <init>
+------------------------------- Redkale -------------------------------
+2017-07-19 23:01:59.839 INFO [main] org.redkale.boot.Application init
+APP_HOME= D:\mars-workspace\Guass
+APP_ADDR= 192.168.3.30
+2017-07-19 23:02:01.232 INFO [HTTP-*:16060-Thread] org.redkale.boot.NodeServer init
+NodeHttpServer load filter class in 1338 ms
+2017-07-19 23:02:01.258 INFO [HTTP-*:16060-Thread] org.redkale.boot.NodeHttpServer loadHttpServlet
+[HTTP-*:16060-Thread]  Load com.esb.guass.server.servlet.HttpProxyServlet  mapping to  [/esb/proxys/*]
+[HTTP-*:16060-Thread]  Load com.esb.guass.server.servlet.MangerServlert    mapping to  [/esb/manger/*]
+[HTTP-*:16060-Thread]  Load com.esb.guass.server.servlet.ResultServlet     mapping to  [/esb/results/*]
+[HTTP-*:16060-Thread]  Load com.esb.guass.server.servlet.ServiceServlet    mapping to  [/esb/services/*]
+
+2017-07-19 23:02:01.271 INFO [HTTP-*:16060-Thread] org.redkale.net.Server start
+[HTTP-*:16060-Thread] HttpServer listen: /0.0.0.0:16060, threads: 64, bufferCapacity: 16400, bufferPoolSize: 2048, responsePoolSize: 1024, started in 1526 ms
+2017-07-19 23:02:01.271 INFO [main] org.redkale.boot.Application start
+Application started in 1526 ms
