@@ -1,5 +1,7 @@
 package com.esb.guass.dispatcher.entity;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 结果封装实体类
  * @author wicks
@@ -24,6 +26,10 @@ public class ResultEntity {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String toString(){
+		return JSON.toJSONString(this);
 	}
 
 }

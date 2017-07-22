@@ -32,7 +32,7 @@ public class RegularJobService {
 	public static void update(RegularJobEntity entity){
 		Document doc = new Document(JSONObject.parseObject(entity.toString())) ;
 		Document filter = new Document();  
-    	filter.append("jobId", entity.getJobId());  
+    	filter.append("jobCode", entity.getJobCode());  
 		MongoDAO.getInstance().update(dbName, collectionName, filter, doc);
 	}
 	
@@ -40,9 +40,9 @@ public class RegularJobService {
 	 * 查询
 	 * @param questId
 	 */
-	public static RegularJobEntity find(String jobId){
+	public static RegularJobEntity find(String jobCode){
 		Document filter = new Document();  
-    	filter.append("jobId", jobId);  
+    	filter.append("jobCode", jobCode);  
     	List<Document> docs = MongoDAO.getInstance().findBy(dbName, collectionName, filter);
     	if(docs.size() > 0){
     		return JSONObject.toJavaObject(JSONObject.parseObject(JSON.toJSONString(docs.get(0))), RegularJobEntity.class);

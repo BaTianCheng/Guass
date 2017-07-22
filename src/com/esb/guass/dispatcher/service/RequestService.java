@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.Map.Entry;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.redkale.net.http.HttpRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.esb.guass.common.cache.ehcache.EhCacheService;
+import com.esb.guass.common.constant.ParamConstants;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.dao.mongo.MongoDAO;
 import com.esb.guass.dispatcher.entity.RequestCondition;
 import com.esb.guass.dispatcher.entity.RequestEntity;
+import com.esb.guass.dispatcher.exception.ParseException;
 import com.google.common.base.Strings;
 import com.mongodb.BasicDBObject;
 
@@ -28,6 +33,88 @@ public class RequestService {
 	private static final String dbName = "db_esb";
 	
 	private static final String collectionName = "tb_request";
+	
+	/**
+	 * 生成请求实体类
+	 * @param req
+	 * @return
+	 */
+	public static RequestEntity getRequestEntuty(HttpRequest req) {
+		RequestEntity requestEntity = new RequestEntity();
+		requestEntity.setQuestId(UUID.randomUUID().toString());
+		requestEntity.setRequestTime(System.currentTimeMillis());
+		requestEntity.setStatus(StatusConstant.CODE_1201);
+		requestEntity.setRequestIP(req.getRemoteAddr());
+		
+		//参数解析
+		Map<String, String> params = new HashMap<>();
+		for(String paramName : req.getParameterNames()){
+			if(params.containsKey(paramName)) continue;
+			
+			switch (paramName) {
+				case ParamConstants.PARAM_SERVICECODE:
+					requestEntity.setServiceCode(req.getParameter(paramName));
+					break;
+				case ParamConstants.PARAM_APPID:
+					requestEntity.setAppId(req.getParameter(paramName));
+					break;
+				case ParamConstants.PARAM_SIGN:
+					requestEntity.setSign(req.getParameter(paramName));
+					break;
+				case ParamConstants.PARAM_IDENTIFICATION:
+					requestEntity.setIdentification(req.getParameter(paramName));
+					break;
+				case ParamConstants.PARAM_ASYNC:
+					requestEntity.setAsync(req.getBooleanParameter(paramName, true));
+					break;
+				case ParamConstants.PARAM_DATA:
+					break;
+				default:
+					params.put(paramName, req.getParameter(paramName));
+					break;
+			}
+		}
+		
+		//解析DATA参数
+		if(!Strings.isNullOrEmpty(req.getParameter(ParamConstants.PARAM_DATA))){
+			try{
+    			@SuppressWarnings("unchecked")
+				Map<String, Object> paramDatas = JSON.parseObject(req.getParameter(ParamConstants.PARAM_DATA), HashMap.class);
+    			if(paramDatas != null){
+    				for(Entry<String, Object> paramData : paramDatas.entrySet()){
+    					if(paramData.getValue() instanceof String){
+    						params.put(paramData.getKey(), String.valueOf(paramData.getValue()));
+    					} else if(paramData.getValue() instanceof JSONObject || paramData.getValue() instanceof JSONArray){
+    						throw new ParseException("不接受JSONObject或者JSONArray");
+    					} else {
+    						params.put(paramData.getKey(), String.valueOf((paramData.getValue())));
+    					}
+    				}
+    			}
+			}
+			catch(ParseException ex){
+				throw ex;
+			}
+			catch(Exception ex){
+				throw new ParseException("data参数解析失败，请确保是k-v形式的json字符串，同时属性值仅限字符串和数字类型");
+			}
+		}
+		requestEntity.setParams(params);
+		
+		//解析头部
+		Map<String, String> head = new HashMap<>();
+		head.put("content-type", req.getContentType());
+		if(req.getHeaderNames() != null){
+			for(String headName : req.getHeaderNames()){
+				head.put(headName, req.getHeader(headName));
+			}
+		}
+		
+		//解析体
+		requestEntity.setPostBody(req.getBodyUTF8());
+		
+		return requestEntity;
+	}
 	
 	/**
 	 * 插入数据

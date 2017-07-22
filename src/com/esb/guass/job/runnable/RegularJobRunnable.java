@@ -1,9 +1,13 @@
 package com.esb.guass.job.runnable;
 
-import java.util.List;
+import java.lang.reflect.Method;
+import java.util.Map;
 
+import com.esb.guass.common.util.LogUtils;
+import com.esb.guass.dispatcher.entity.ResultEntity;
+import com.esb.guass.dispatcher.entity.ServiceEntity;
+import com.esb.guass.dispatcher.service.ServiceMangerService;
 import com.esb.guass.job.entity.RegularJobEntity;
-import com.esb.guass.job.service.JobMangerService;
 import com.esb.guass.job.service.RegularJobService;
 
 /**
@@ -12,20 +16,43 @@ import com.esb.guass.job.service.RegularJobService;
  */
 public class RegularJobRunnable implements Runnable{
 
+	private RegularJobEntity regularJobEntity;
+	private ServiceEntity serviceEntity;
+	private Method method;
+	private Class<?> clazz;
+	
+	/**
+	 * 构造函数
+	 * @param regularJobEntity
+	 */
+	public RegularJobRunnable(RegularJobEntity regularJobEntity){
+		this.regularJobEntity = regularJobEntity;
+		this.serviceEntity = ServiceMangerService.find(regularJobEntity.getServiceCode());
+		try{
+			clazz = Class.forName(serviceEntity.getMapUrl());
+			method = clazz.getMethod("HandlerRequest",String.class, Map.class);
+		}
+		catch(Exception ex){
+			LogUtils.error("定时任务无法启动"+serviceEntity.getServiceName(), ex);
+		}
+	}
+	
 	@Override
 	public void run() {
-		//每隔一分钟判断是否有定时任务需要执行
 		while(true){
-			long nowTime = System.currentTimeMillis();
-			List<RegularJobEntity> entities = RegularJobService.findAll();
-			for(RegularJobEntity entity : entities){
-				if((nowTime - entity.getLastTime()) > entity.getIntervalMinute()*60*1000){
-					JobMangerService.excute(entity);
+			try{
+				if(RegularJobService.find(regularJobEntity.getJobCode())!=null
+						&&RegularJobService.find(regularJobEntity.getJobCode()).getStatus() == 1){
+			        ResultEntity result = (ResultEntity) method.invoke(clazz.newInstance(),null, null);
+			        LogUtils.info(regularJobEntity.getJobName()+"执行完成："+result);
 				}
+			}
+			catch(Exception ex){
+				LogUtils.error("定时任务执行失败", ex);
 			}
 			
 			try {
-				Thread.sleep(60*1000);
+				Thread.sleep(regularJobEntity.getIntervalSecond()*1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

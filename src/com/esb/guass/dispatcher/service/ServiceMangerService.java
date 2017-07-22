@@ -3,7 +3,6 @@ package com.esb.guass.dispatcher.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bson.Document;
 import org.redkale.net.http.HttpRequest;
@@ -12,11 +11,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.esb.guass.common.cache.ehcache.EhCacheService;
-import com.esb.guass.common.constant.StatusConstant;
+import com.esb.guass.common.constant.ParamConstants;
 import com.esb.guass.common.dao.mongo.MongoDAO;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.entity.RequestOption;
 import com.esb.guass.dispatcher.entity.ServiceEntity;
+import com.esb.guass.dispatcher.exception.UnfindServiceException;
 import com.google.common.base.Strings;
 
 /**
@@ -30,53 +30,72 @@ public class ServiceMangerService {
 	private static final String collectionName = "tb_service";
 	
 	/**
-	 * 发送服务
+	 * 从服务组装请求
 	 * @param serviceEntity
 	 * @return
 	 */
-	public static RequestEntity sendService(String serviceCode, String identification, Map<String, String> params, Map<String, String> headers, HttpRequest req){
-		ServiceEntity serviceEntity = find(serviceCode);
+	public static RequestEntity getRequestByService(RequestEntity requestEntity, HttpRequest req){
+		ServiceEntity serviceEntity = find(requestEntity.getServiceCode());
 		if(serviceEntity != null){
-			RequestEntity requestEntity = new RequestEntity();
-			requestEntity.setQuestId(UUID.randomUUID().toString());
-			requestEntity.setServiceCode(serviceCode);
 			requestEntity.setServiceName(serviceEntity.getServiceName());
-    		requestEntity.setRequestTime(System.currentTimeMillis());
 			requestEntity.setRequestType(serviceEntity.getRequestType());
     		requestEntity.setUrl(serviceEntity.getMapUrl());
-    		requestEntity.setIdentification(identification);
-    		requestEntity.setStatus(StatusConstant.CODE_1201);
     		requestEntity.setResponseContentType(serviceEntity.getResponseContentType());
     		requestEntity.setResponseErrorMsg(serviceEntity.getResponseErrorMsg());
     		requestEntity.setDirectReturn(serviceEntity.isDirectReturn());
+    		requestEntity.setAuthValidate(serviceEntity.isAuthValidate());
     		if(serviceEntity.getRequestOption() == null){
     			requestEntity.setRequestOption(new RequestOption());
     		} else {
     			requestEntity.setRequestOption(serviceEntity.getRequestOption());
     		}
-    		requestEntity.setParams(params);
+    		
     		if(serviceEntity.getHeadParams()!=null && serviceEntity.getHeadParams().size() > 0 ){
-    			headers = new HashMap<>();
+    			Map<String, String> headers = new HashMap<>();
     			for(String headParam : serviceEntity.getHeadParams()){
-    				if(params.containsKey(headParam)){
-    					headers.put(headParam, params.get(params));
+    				if(requestEntity.getParams().containsKey(headParam)){
+    					headers.put(headParam, requestEntity.getParams().get(headParam));
     				}
     			}
+    			requestEntity.setHead(headers);
     		} 
-    		requestEntity.setHead(headers);
+    		
     		if(req != null){
-	    		requestEntity.setAsync(req.getBooleanParameter("async", serviceEntity.isAsync()));
-	    		if(!Strings.isNullOrEmpty(req.getBodyUTF8())){
-	    			requestEntity.setPostBody(req.getBodyUTF8());
-	    		}
-	    		requestEntity.setRequestIP(req.getRemoteAddr());
+	    		requestEntity.setAsync(req.getBooleanParameter(ParamConstants.PARAM_ASYNC, serviceEntity.isAsync()));
     		}
-    		RequestService.insert(requestEntity);
-    		RequestQueue.add(requestEntity);
     		return requestEntity;
+		} else {
+			throw new UnfindServiceException("无法获得服务，服务不存在");
 		}
-
-		return null;
+	}
+	
+	/**
+	 * 获取自定义异常
+	 * @param serviceEntity
+	 * @return
+	 */
+	public static RequestEntity getErrRequest(HttpRequest req){
+		RequestEntity requestEntity = new RequestEntity();
+		if(!Strings.isNullOrEmpty(req.getParameter(ParamConstants.PARAM_SERVICECODE))){
+			requestEntity.setServiceCode(req.getParameter(ParamConstants.PARAM_SERVICECODE));
+			ServiceEntity serviceEntity = find(requestEntity.getServiceCode());
+			if(serviceEntity!=null){
+				requestEntity.setServiceName(serviceEntity.getServiceName());
+				requestEntity.setResponseErrorMsg(serviceEntity.getResponseErrorMsg());
+			}
+		}
+		return requestEntity;
+	}
+	
+	/**
+	 * 发送请求
+	 * @param serviceEntity
+	 * @return
+	 */
+	public static RequestEntity sendService(RequestEntity requestEntity){
+		RequestService.insert(requestEntity);
+		RequestQueue.add(requestEntity);
+		return requestEntity;
 	}
 	
 	/**

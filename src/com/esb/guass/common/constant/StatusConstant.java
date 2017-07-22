@@ -5,6 +5,7 @@ public class StatusConstant {
 	public static String CODE_200 = "200";
 	public static String CODE_201 = "201";
 	public static String CODE_300 = "300";
+	public static String CODE_301 = "301";
 	public static String CODE_310 = "310";
 	public static String CODE_400 = "400";
 	public static String CODE_500 = "500";
@@ -19,6 +20,7 @@ public class StatusConstant {
 	public static String CODE_200_MSG = "响应成功";
 	public static String CODE_201_MSG = "结果尚未返回";
 	public static String CODE_300_MSG = "请求权限不足";
+	public static String CODE_301_MSG = "请求签名错误";
 	public static String CODE_310_MSG = "请求的服务不存在";
 	public static String CODE_400_MSG = "请求参数错误";
 	public static String CODE_500_MSG = "系统错误";

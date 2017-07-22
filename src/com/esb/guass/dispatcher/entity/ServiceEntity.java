@@ -45,6 +45,11 @@ public class ServiceEntity {
 	private boolean async = true;
 	
 	/**
+	 * 权限认证标志
+	 */
+	private boolean authValidate = false;
+	
+	/**
 	 * 是否直接返回结果（同步时无效）
 	 */
 	private boolean directReturn = false;
@@ -126,6 +131,14 @@ public class ServiceEntity {
 
 	public void setAsync(boolean async) {
 		this.async = async;
+	}
+	
+	public boolean isAuthValidate() {
+		return authValidate;
+	}
+
+	public void setAuthValidate(boolean authValidate) {
+		this.authValidate = authValidate;
 	}
 
 	public boolean isDirectReturn() {

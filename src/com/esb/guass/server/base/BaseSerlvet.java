@@ -2,6 +2,8 @@ package com.esb.guass.server.base;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,8 +16,11 @@ import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.HttpServlet;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.esb.guass.common.constant.ConfigConstant;
 import com.esb.guass.common.constant.StatusConstant;
+import com.esb.guass.common.util.LogUtils;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.service.RequestService;
 import com.esb.guass.server.entity.ResponseResult;
@@ -122,6 +127,36 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     }
     
     /**
+     * 失败输出(判断是否有指定输出格式)
+     * @param resp
+     * @param code
+     * @param msg
+     * @param data
+     */
+    public void writeErrorResult(HttpResponse resp, String code, String msg, RequestEntity entity){
+    	if(Strings.isNullOrEmpty(entity.getResponseErrorMsg())){
+    		writeErrorResult(resp, code, msg, entity.getResult());
+    	} else {
+    		try{
+	    		JSONObject jsonObj = JSON.parseObject(entity.getResponseErrorMsg());
+	    		Map<String, String> map = new HashMap<>();
+	    		if(jsonObj.containsKey("code")){
+	    			map.put(jsonObj.getString("statusCode"), jsonObj.getString("code"));
+	    		} else {
+	    			map.put(jsonObj.getString("statusCode"), code);
+	    		}
+	    		map.put(jsonObj.getString("message"), msg);
+	    		resp.addHeader("Access-Control-Allow-Origin", "*");
+	        	resp.finishJson(map);
+    		}
+    		catch(Exception ex){
+    			LogUtils.error("自定义错误码解析错误", ex);
+    			writeErrorResult(resp, code, msg, entity.getResult());
+    		}
+    	}
+    }
+    
+    /**
      * 直接返回结果
      * @param resp
      * @param data
@@ -174,7 +209,7 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     	
     	//判断是否为空
 		if(requestEntity == null){
-			this.writeErrorResult(resp, StatusConstant.CODE_310, StatusConstant.CODE_310_MSG, null);
+			this.writeErrorResult(resp, StatusConstant.CODE_310, StatusConstant.CODE_310_MSG, requestEntity);
 			return;
 		}
     	
@@ -189,7 +224,7 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
 				this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
 			} else {
 				if(Strings.isNullOrEmpty(entity.getResponseErrorMsg())){
-					this.writeErrorResult(resp, requestEntity.getStatus(), "结果无法返回", requestEntity.getQuestId());
+					this.writeErrorResult(resp, requestEntity.getStatus(), "结果无法返回", requestEntity);
 				} else {
 					this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
 				}

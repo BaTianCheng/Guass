@@ -2,6 +2,8 @@ package com.esb.guass.common.cache.ehcache;
 
 import java.util.List;
 
+import com.esb.guass.auth.entity.VisitorEntity;
+import com.esb.guass.auth.service.VisitorService;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.entity.ServiceEntity;
 import com.esb.guass.dispatcher.service.ServiceMangerService;
@@ -37,6 +39,11 @@ public class EhCacheService {
 	private static String SERVICECACHE = "ServiceCache";
 	
 	/**
+	 * 访问者缓存名
+	 */
+	private static String VISITORCACHE = "VisitorCache";
+	
+	/**
 	 * 缓存初始化
 	 */
 	public static void init(){
@@ -48,6 +55,14 @@ public class EhCacheService {
 		if(serviceEntities != null){
 			for(ServiceEntity entity : serviceEntities){
 				setServiceCache(entity);
+			}
+		}
+		
+		//加载所有访问者入缓存
+		List<VisitorEntity> visitorEntities = VisitorService.findAll();
+		if(serviceEntities != null){
+			for(VisitorEntity entity : visitorEntities){
+				setVisitorCache(entity);
 			}
 		}
 	}
@@ -87,6 +102,26 @@ public class EhCacheService {
 		Cache cache = manager.getCache(SERVICECACHE);
 		if(cache.isKeyInCache(serviceName)){
 			return (ServiceEntity)cache.get(serviceName).getObjectValue();
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 设置访问者缓存
+	 */
+	public static void setVisitorCache(VisitorEntity entity){
+		Cache cache = manager.getCache(VISITORCACHE);
+		cache.put(new Element(entity.getAppId(), entity));
+	}
+	
+	/**
+	 * 获取访问者缓存
+	 */
+	public static VisitorEntity getVisitorCache(String appId){
+		Cache cache = manager.getCache(VISITORCACHE);
+		if(cache.isKeyInCache(appId)){
+			return (VisitorEntity)cache.get(appId).getObjectValue();
 		} else {
 			return null;
 		}

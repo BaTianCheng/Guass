@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  */
 public class LogUtils {
 	
-    protected final static Logger logger = Logger.getLogger(LogUtils.class.getSimpleName());
+    protected final static Logger logger = Logger.getLogger("com.esb.log");
 
     protected final boolean fine = logger.isLoggable(Level.FINE);
     

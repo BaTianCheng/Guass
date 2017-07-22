@@ -9,7 +9,7 @@ public class RegularJobEntity {
 	/**
 	 * 编号
 	 */
-	private String jobId;
+	private String jobCode;
 	
 	/**
 	 * 名称
@@ -37,9 +37,9 @@ public class RegularJobEntity {
 	private Integer status;
 	
 	/**
-	 * 间隔时间（分）
+	 * 间隔时间（秒）
 	 */
-	private Integer intervalMinute;
+	private Integer intervalSecond;
 
 	/**
 	 * 开始时间（分，如480表示8点）
@@ -66,12 +66,12 @@ public class RegularJobEntity {
 	 */
 	private String remarks;
 
-	public String getJobId() {
-		return jobId;
+	public String getJobCode() {
+		return jobCode;
 	}
 
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
+	public void setJobCode(String jobCode) {
+		this.jobCode = jobCode;
 	}
 
 	public String getJobName() {
@@ -114,12 +114,12 @@ public class RegularJobEntity {
 		this.status = status;
 	}
 
-	public Integer getIntervalMinute() {
-		return intervalMinute;
+	public Integer getIntervalSecond() {
+		return intervalSecond;
 	}
 
-	public void setIntervalMinute(Integer intervalMinute) {
-		this.intervalMinute = intervalMinute;
+	public void setIntervalSecond(Integer intervalSecond) {
+		this.intervalSecond = intervalSecond;
 	}
 
 	public Integer getBeiginTime() {

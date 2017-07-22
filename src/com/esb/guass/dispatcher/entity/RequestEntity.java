@@ -38,6 +38,16 @@ public class RequestEntity {
 	 * 请求路径
 	 */
 	private String url;
+	
+	/**
+	 * AppId标记
+	 */
+	private String appId;
+	
+	/**
+	 * 签名
+	 */
+	private String sign;
 
 	/**
 	 * 身份标记
@@ -48,6 +58,11 @@ public class RequestEntity {
 	 * 异步标志
 	 */
 	private boolean async = true;
+	
+	/**
+	 * 权限认证标志
+	 */
+	private boolean authValidate = false;
 	
 	/**
 	 * 是否直接返回结果（同步时无效）
@@ -164,6 +179,22 @@ public class RequestEntity {
 		this.url = url;
 	}
 
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+	
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
 	public String getIdentification() {
 		return identification;
 	}
@@ -178,6 +209,14 @@ public class RequestEntity {
 
 	public void setAsync(boolean async) {
 		this.async = async;
+	}
+
+	public boolean isAuthValidate() {
+		return authValidate;
+	}
+
+	public void setAuthValidate(boolean authValidate) {
+		this.authValidate = authValidate;
 	}
 
 	public boolean isDirectReturn() {
