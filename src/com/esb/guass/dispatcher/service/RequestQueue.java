@@ -14,13 +14,15 @@ public class RequestQueue {
 	 * 线程安全有序队列
 	 */
 	private static ConcurrentLinkedQueue<RequestEntity> queue;
+	private static ConcurrentLinkedQueue<RequestEntity> priorityQueue;
 	
 	static{
 		queue = new ConcurrentLinkedQueue<RequestEntity>();
+		priorityQueue = new ConcurrentLinkedQueue<RequestEntity>();
 	}
 	
 	/**
-	 * 入列
+	 * 入普通队列
 	 * @param requestEntity
 	 */
 	public static void add(RequestEntity requestEntity){
@@ -28,11 +30,22 @@ public class RequestQueue {
 	}
 	
 	/**
+	 * 入优先队列
+	 * @param requestEntity
+	 */
+	public static void addPriority(RequestEntity requestEntity){
+		priorityQueue.add(requestEntity);
+	}
+	
+	/**
 	 * 出队
 	 * @return
 	 */
 	public static RequestEntity poll(){
-		if(queue.size() > 0){
+		//优先队列享有优先出队权利
+		if(priorityQueue.size() > 0){
+			return priorityQueue.poll();
+		} else if(queue.size() > 0){
 			return queue.poll();
 		} else {
 			return null;
@@ -44,7 +57,7 @@ public class RequestQueue {
 	 * @return
 	 */
 	public static int getSize(){
-		return queue.size();
+		return priorityQueue.size() + queue.size();
 	}
 	
 }

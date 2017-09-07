@@ -65,6 +65,8 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
         		if(req.getRequestURI().contains("/services/get")){
 	        		logger.info("["+request.getCreatetime()+"]请求耗时" + e + " 毫秒. 请求为: " + req 
 	        				+"\r\n响应为: "+resp.getOutput());
+        		} else {
+        			logger.info("["+request.getCreatetime()+"]请求耗时" + e + " 毫秒. 请求为: " + req );
         		}
         	}
         });
@@ -105,6 +107,10 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     	result.setStatusCode(StatusConstant.CODE_200);
     	result.setMessage(msg);
     	result.setQuestId(questId);
+    	//暂不输出响应头
+    	if(data instanceof RequestEntity){
+    		((RequestEntity) data).setResponseHeaders(null);
+    	}
     	result.setData(data);
     	resp.addHeader("Access-Control-Allow-Origin", "*");
     	resp.finishJson(result);
@@ -127,6 +133,21 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     }
     
     /**
+     * 失败输出
+     * @param resp
+     * @param code
+     * @param msg
+     * @param data
+     */
+    public void writeErrorResult(HttpResponse resp, String code, String msg){
+    	ResponseResult result = new ResponseResult();
+    	result.setStatusCode(code);
+    	result.setMessage(msg);
+    	resp.addHeader("Access-Control-Allow-Origin", "*");
+    	resp.finishJson(result);
+    }
+    
+    /**
      * 失败输出(判断是否有指定输出格式)
      * @param resp
      * @param code
@@ -134,7 +155,9 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
      * @param data
      */
     public void writeErrorResult(HttpResponse resp, String code, String msg, RequestEntity entity){
-    	if(Strings.isNullOrEmpty(entity.getResponseErrorMsg())){
+    	if(entity == null ){
+    		writeErrorResult(resp, code, msg);
+    	} else if(Strings.isNullOrEmpty(entity.getResponseErrorMsg())){
     		writeErrorResult(resp, code, msg, entity.getResult());
     	} else {
     		try{
@@ -169,7 +192,8 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     			} else if (header.getName().equals("content-length") || header.getName().equals("date")){
     				continue;
     			} else {
-    				resp.addHeader(header.getName(), header.getValue());
+    				continue;
+    				//resp.addHeader(header.getName(), header.getValue());
     			}
     		}
     	} else {

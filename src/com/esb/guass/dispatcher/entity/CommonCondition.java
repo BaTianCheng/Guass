@@ -1,10 +1,12 @@
 package com.esb.guass.dispatcher.entity;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 查询请求的条件
  * @author wicks
  */
-public class RequestCondition {
+public class CommonCondition {
 
 	/**
 	 * 任务编号
@@ -35,6 +37,11 @@ public class RequestCondition {
 	 * 请求结束时间
 	 */
 	private long endTime;
+	
+	/**
+	 * 所属模块
+	 */
+	private String module;
 	
 	/**
 	 * 页码
@@ -94,6 +101,14 @@ public class RequestCondition {
 		this.endTime = endTime;
 	}
 
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -108,6 +123,11 @@ public class RequestCondition {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+	
+	@Override
+	public String toString(){
+		return JSON.toJSONString(this);
 	}
 	
 }

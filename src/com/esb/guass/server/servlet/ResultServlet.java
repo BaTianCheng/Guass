@@ -41,6 +41,12 @@ public class ResultServlet extends BaseSerlvet {
     			}
     		} else {
     			//根据businessId获取数据
+    			RequestEntity requestEntity = RequestService.findByBusinessId(req.getParameter("businessId"));
+    			if(requestEntity!=null){
+    				this.writeSuccessResult(resp, requestEntity, StatusConstant.CODE_200_MSG, requestEntity.getQuestId());
+    			} else {
+    				this.writeErrorResult(resp, StatusConstant.CODE_500, "系统异常，数据库无记录", null);
+    			}
     		}
     	}
     }
@@ -67,8 +73,14 @@ public class ResultServlet extends BaseSerlvet {
     			}
     		} else {
     			//根据businessId获取数据
-    			
+    			RequestEntity requestEntity = RequestService.find(req.getParameter("businessId"));
+    			if(requestEntity!=null){
+    				this.writeSuccessResult(resp, requestEntity, StatusConstant.CODE_200_MSG, requestEntity.getQuestId());
+    			} else {
+    				this.writeErrorResult(resp, StatusConstant.CODE_500, "系统异常，数据库无记录", null);
+    			}
     		}
     	}
-    }
+    }   
+    
 }

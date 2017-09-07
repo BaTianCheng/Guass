@@ -14,7 +14,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 	private static String[] parsePatterns = {
 			"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", 
 			"yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM",
-			"yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
+			"yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM", "yyyyMMddHHmmss"};
 
 		/**
 		 * 得到当前日期字符串 格式（yyyy-MM-dd）
@@ -28,6 +28,14 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 		 */
 		public static String getDate(String pattern) {
 			return DateFormatUtils.format(new Date(), pattern);
+		}
+		
+		/**
+		 * 得到指定日期字符串
+		 */
+		public static String getDate(String pattern, long time) {
+			Date date = new Date(time);
+			return DateFormatUtils.format(date, pattern);
 		}
 		
 		/**

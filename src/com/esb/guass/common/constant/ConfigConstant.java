@@ -16,6 +16,11 @@ public class ConfigConstant {
 	public static String HTTP = "HTTP";
 	public static String API = "API";
 	
-	//权限凭据
+	//权限凭据--计划任务
 	public static String IDENTIFICATION_SYS_JOB = "SYS_JOB";
+	//计划任务扫描间隔
+	public static int PLANNINGJOB_INTERVAL = 30*1000;
+	
+	//数据库加密KEY
+	public static String ENCODE_KEY="hhxxttxs";
 }

@@ -65,6 +65,11 @@ public class ServiceEntity {
 	private List<String> params;
 	
 	/**
+	 * 参数名列表
+	 */
+	private List<String> paramNames;
+	
+	/**
 	 * 必填参数列表
 	 */
 	private List<String> requiredParams;
@@ -163,6 +168,14 @@ public class ServiceEntity {
 
 	public void setParams(List<String> params) {
 		this.params = params;
+	}
+
+	public List<String> getParamNames() {
+		return paramNames;
+	}
+
+	public void setParamNames(List<String> paramNames) {
+		this.paramNames = paramNames;
 	}
 
 	public List<String> getRequiredParams() {

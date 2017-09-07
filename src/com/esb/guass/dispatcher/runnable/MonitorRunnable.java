@@ -1,7 +1,12 @@
 package com.esb.guass.dispatcher.runnable;
 
+import java.util.List;
+
 import com.esb.guass.common.constant.ConfigConstant;
+import com.esb.guass.common.constant.StatusConstant;
+import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.service.RequestQueue;
+import com.esb.guass.dispatcher.service.RequestService;
 import com.esb.guass.dispatcher.service.ThreadPoolService;
 
 /**
@@ -9,6 +14,28 @@ import com.esb.guass.dispatcher.service.ThreadPoolService;
  * @author wicks
  */
 public class MonitorRunnable implements Runnable{
+	
+	/**
+	 * 构造函数
+	 */
+	public MonitorRunnable(){
+		super();
+		
+		//监控程序启动时，将正在队列的设为异常
+		List<RequestEntity> entities1201 = RequestService.findByStatus(StatusConstant.CODE_1201);
+		for(RequestEntity entity : entities1201){
+			entity.setStatus(StatusConstant.CODE_1301);
+			RequestService.update(entity);
+		}
+		
+		//监控程序启动时，将正在执行的设为异常
+		List<RequestEntity> entities1202 = RequestService.findByStatus(StatusConstant.CODE_1202);
+		for(RequestEntity entity : entities1202){
+			entity.setStatus(StatusConstant.CODE_1301);
+			RequestService.update(entity);
+		}
+		
+	}
 
 	@Override
 	public void run() {

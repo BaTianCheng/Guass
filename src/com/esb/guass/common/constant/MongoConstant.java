@@ -2,7 +2,10 @@ package com.esb.guass.common.constant;
 
 import java.util.Properties;
 
+import org.redkale.source.Encode;
+
 import com.esb.guass.common.util.PropertiesUtils;
+import com.google.common.base.Strings;
 
 /**
  * Mongo常量类
@@ -23,6 +26,10 @@ public class MongoConstant {
 		PORT = Integer.valueOf(properties.getProperty("PORT"));
 		USERNAME = properties.getProperty("USERNAME");
 		PASSWORD = properties.getProperty("PASSWORD");
+		if(!Strings.isNullOrEmpty(properties.getProperty("ENCRYPT"))){
+			Encode encode = new Encode("hhxxttxs");
+			PASSWORD = encode.DecryptionStringData(MongoConstant.PASSWORD);
+		}
 	}
 	
 	/**

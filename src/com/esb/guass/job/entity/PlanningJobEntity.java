@@ -2,6 +2,8 @@ package com.esb.guass.job.entity;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 计划任务实体类
  * @author wicks
@@ -11,12 +13,17 @@ public class PlanningJobEntity {
 	/**
 	 * 编号
 	 */
-	private String jobId;
+	private String jobCode;
 	
 	/**
 	 * 名称
 	 */
 	private String jobName;
+	
+	/**
+	 * 模块
+	 */
+	private String module;
 	
 	/**
 	 * 服务编码
@@ -73,12 +80,12 @@ public class PlanningJobEntity {
 	 */
 	private String remarks;
 
-	public String getJobId() {
-		return jobId;
+	public String getJobCode() {
+		return jobCode;
 	}
 
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
+	public void setJobCode(String jobCode) {
+		this.jobCode = jobCode;
 	}
 
 	public String getJobName() {
@@ -87,6 +94,14 @@ public class PlanningJobEntity {
 
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public String getServiceCode() {
@@ -175,6 +190,11 @@ public class PlanningJobEntity {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+	
+	@Override
+	public String toString(){
+		return JSON.toJSONString(this);
 	}
 	
 }

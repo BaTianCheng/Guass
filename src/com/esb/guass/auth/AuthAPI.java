@@ -3,6 +3,7 @@ package com.esb.guass.auth;
 import com.esb.guass.auth.entity.VisitorEntity;
 import com.esb.guass.auth.service.SignValidateService;
 import com.esb.guass.auth.service.VisitorService;
+import com.esb.guass.auth.service.WhiteListService;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.util.LogUtils;
 import com.esb.guass.dispatcher.entity.RequestEntity;
@@ -20,7 +21,7 @@ public class AuthAPI {
 	 */
 	public static String authCheck(RequestEntity entity){
 		try{
-			if(entity.isAuthValidate()){
+			if(entity.isAuthValidate() && !WhiteListService.isWhiteList(entity.getRequestIP())){
 				VisitorEntity visitor = VisitorService.find(entity.getAppId());
 				if(visitor == null){
 					//用户不存在，权限不足

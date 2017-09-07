@@ -99,6 +99,17 @@ public class ServiceMangerService {
 	}
 	
 	/**
+	 * 发送优先请求
+	 * @param serviceEntity
+	 * @return
+	 */
+	public static RequestEntity sendPriorityService(RequestEntity requestEntity){
+		RequestService.insert(requestEntity);
+		RequestQueue.addPriority(requestEntity);
+		return requestEntity;
+	}
+	
+	/**
 	 * 插入数据
 	 * @param entity
 	 */

@@ -80,7 +80,7 @@ public class EhCacheService {
 	 */
 	public static RequestEntity getResultCache(String questId){
 		Cache cache = manager.getCache(RESULTCACHE);
-		if(cache.isKeyInCache(questId)){
+		if(cache.isKeyInCache(questId) && cache.get(questId)!=null){
 			return (RequestEntity)cache.get(questId).getObjectValue();
 		} else {
 			return null;
@@ -92,16 +92,16 @@ public class EhCacheService {
 	 */
 	public static void setServiceCache(ServiceEntity entity){
 		Cache cache = manager.getCache(SERVICECACHE);
-		cache.put(new Element(entity.getServiceName(), entity));
+		cache.put(new Element(entity.getServiceCode(), entity));
 	}
 	
 	/**
 	 * 获取服务缓存
 	 */
-	public static ServiceEntity getServiceCache(String serviceName){
+	public static ServiceEntity getServiceCache(String serviceCode){
 		Cache cache = manager.getCache(SERVICECACHE);
-		if(cache.isKeyInCache(serviceName)){
-			return (ServiceEntity)cache.get(serviceName).getObjectValue();
+		if(cache.isKeyInCache(serviceCode)){
+			return (ServiceEntity)cache.get(serviceCode).getObjectValue();
 		} else {
 			return null;
 		}

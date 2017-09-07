@@ -9,9 +9,12 @@ import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 
+import com.esb.guass.common.cache.ehcache.EhCacheService;
 import com.esb.guass.common.constant.StatusConstant;
-import com.esb.guass.dispatcher.entity.RequestCondition;
+import com.esb.guass.common.util.LogUtils;
+import com.esb.guass.dispatcher.entity.CommonCondition;
 import com.esb.guass.dispatcher.entity.ServiceEntity;
+import com.esb.guass.dispatcher.service.ModuleService;
 import com.esb.guass.dispatcher.service.RequestQueue;
 import com.esb.guass.dispatcher.service.RequestService;
 import com.esb.guass.dispatcher.service.ServiceMangerService;
@@ -36,6 +39,37 @@ public class MangerServlert extends BaseSerlvet {
     }
     
     /**
+     * 刷新缓存
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
+    @AuthIgnore
+    @WebMapping(url = "/manger/caches/update", comment = "更新缓存")
+    public void updateCache(HttpRequest req, HttpResponse resp) throws IOException {
+    	try{
+    		EhCacheService.init();
+    		this.writeSuccessResult(resp, "更新成功");
+    	}
+    	catch(Exception ex){
+    		LogUtils.error("更新缓存失败", ex);
+    		this.writeErrorResult(resp, StatusConstant.CODE_500, StatusConstant.CODE_500_MSG, null);
+    	}
+    }
+    
+    /**
+     * 获取所有模块
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
+    @AuthIgnore
+    @WebMapping(url = "/manger/modules/list", comment = "获取所有模块列表")
+    public void getModules(HttpRequest req, HttpResponse resp) throws IOException {
+    	this.writeSuccessResult(resp, ModuleService.findAll());	
+    }
+    
+    /**
      * 获取已注册的服务列表
      * @param req
      * @param resp
@@ -45,7 +79,8 @@ public class MangerServlert extends BaseSerlvet {
     @WebMapping(url = "/manger/services/list", comment = "获取已注册的服务列表")
     public void getServices(HttpRequest req, HttpResponse resp) throws IOException {
     	if(Strings.isNullOrEmpty(req.getParameter("module"))){
-    		this.writeErrorResult(resp, StatusConstant.CODE_400, StatusConstant.CODE_400_MSG, null);
+    		List<ServiceEntity> entitys = ServiceMangerService.findAll();
+    		this.writeSuccessResult(resp, entitys);	
     	} else {
     		List<ServiceEntity> entitys = ServiceMangerService.findByModule(req.getParameter("module"));
     		this.writeSuccessResult(resp, entitys);	
@@ -61,7 +96,7 @@ public class MangerServlert extends BaseSerlvet {
     @AuthIgnore
     @WebMapping(url = "/manger/requests/list", comment = "获取请求列表")
     public void getRequests(HttpRequest req, HttpResponse resp) throws IOException {
-    	RequestCondition condition = req.getJsonParameter(RequestCondition.class, "condition"); //获取参数
+    	CommonCondition condition = req.getJsonParameter(CommonCondition.class, "condition"); //获取参数
     	if(!Strings.isNullOrEmpty(req.getParameter("pageNum"))){
     		condition.setPageNum(req.getIntParameter("pageNum", 1));
     	}
@@ -71,5 +106,7 @@ public class MangerServlert extends BaseSerlvet {
     	
     	this.writeSuccessResult(resp, RequestService.findPages(condition));	
     }
+    
+    
 
 }

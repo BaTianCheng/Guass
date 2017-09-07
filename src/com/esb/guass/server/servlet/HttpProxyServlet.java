@@ -11,6 +11,7 @@ import org.redkale.net.http.WebServlet;
 
 import com.alibaba.fastjson.JSON;
 import com.esb.guass.common.constant.StatusConstant;
+import com.esb.guass.common.util.LogUtils;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.entity.RequestOption;
 import com.esb.guass.dispatcher.service.RequestQueue;
@@ -79,10 +80,11 @@ public class HttpProxyServlet extends BaseSerlvet {
 	    		requestEntity.setAsync(req.getBooleanParameter("async", true));
 	    		requestEntity.setRequestIP(req.getRemoteAddr());
 	    		requestEntity.setRequestTime(req.getCreatetime());
-	    		
+	    		requestEntity.setServiceName("HTTP代理");
 	    		requestEntity.setStatus(StatusConstant.CODE_1201);
     		}
     		catch(Exception ex){
+    			LogUtils.error("请求时发生异常", ex);
     			this.writeErrorResult(resp, StatusConstant.CODE_400, StatusConstant.CODE_400_MSG, ex.toString());
     		}
     		RequestService.insert(requestEntity);
@@ -102,7 +104,7 @@ public class HttpProxyServlet extends BaseSerlvet {
     	RequestOption option = new RequestOption();
 		
 		if(!Strings.isNullOrEmpty(req.getParameter("businessId"))){
-			option.setBusinessId("businessId");
+			option.setBusinessId(req.getParameter("businessId"));
 		} 
 		
 		if(!Strings.isNullOrEmpty(req.getParameter("charset"))){

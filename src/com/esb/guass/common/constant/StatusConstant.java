@@ -31,5 +31,5 @@ public class StatusConstant {
 	public static String CODE_1400_MSG = "请求失败";
 	public static String CODE_1402_MSG = "请求超时";
 	public static String CODE_1404_MSG = "请求地址错误";
-
+	
 }

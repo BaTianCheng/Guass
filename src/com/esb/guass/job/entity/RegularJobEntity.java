@@ -1,5 +1,7 @@
 package com.esb.guass.job.entity;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 定时任务实体类
  * @author wicks
@@ -15,6 +17,11 @@ public class RegularJobEntity {
 	 * 名称
 	 */
 	private String jobName;
+	
+	/**
+	 * 模块
+	 */
+	private String module;
 	
 	/**
 	 * 服务编码
@@ -80,6 +87,14 @@ public class RegularJobEntity {
 
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public String getServiceCode() {
@@ -160,6 +175,11 @@ public class RegularJobEntity {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+	
+	@Override
+	public String toString(){
+		return JSON.toJSONString(this);
 	}
 	
 }

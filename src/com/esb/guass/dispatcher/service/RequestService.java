@@ -18,7 +18,7 @@ import com.esb.guass.common.cache.ehcache.EhCacheService;
 import com.esb.guass.common.constant.ParamConstants;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.dao.mongo.MongoDAO;
-import com.esb.guass.dispatcher.entity.RequestCondition;
+import com.esb.guass.dispatcher.entity.CommonCondition;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.exception.ParseException;
 import com.google.common.base.Strings;
@@ -164,10 +164,35 @@ public class RequestService {
 	}
 	
 	/**
+	 * 根据业务编号查询
+	 * @param questId
+	 */
+	public static RequestEntity findByBusinessId(String businessId){
+		//从数据库中查找
+		Document filter = new Document();  
+    	filter.append("requestOption.businessId", businessId);  
+    	List<Document> docs = MongoDAO.getInstance().findBy(dbName, collectionName, filter);
+    	if(docs.size() > 0){
+    		return JSONObject.toJavaObject(JSONObject.parseObject(JSON.toJSONString(docs.get(0))), RequestEntity.class);
+    	}
+    	return null;
+	}
+	
+	/**
 	 * 查询全部
 	 */
 	public static List<RequestEntity> findAll(){
 		List<Document> docs = MongoDAO.getInstance().findAll(dbName, collectionName);
+		return JSONArray.parseArray(JSON.toJSONString(docs), RequestEntity.class);
+	}
+	
+	/**
+	 * 根据状态查询
+	 */
+	public static List<RequestEntity> findByStatus(String status){
+		Document filter = new Document();  
+    	filter.append("status", status);  
+		List<Document> docs = MongoDAO.getInstance().findBy(dbName, collectionName, filter);
 		return JSONArray.parseArray(JSON.toJSONString(docs), RequestEntity.class);
 	}
 	
@@ -177,13 +202,13 @@ public class RequestService {
 	 * @param endTime
 	 * @return
 	 */
-	public static  Map<String, Object> findPages(RequestCondition condition){
+	public static  Map<String, Object> findPages(CommonCondition condition){
 		List<Bson> conditions = new ArrayList<>();
 		if(condition.getBeginTime() > 0){
 			conditions.add(new BasicDBObject("requestTime", new BasicDBObject("$gte", condition.getBeginTime())));	
 		}
 		if(condition.getEndTime() > 0){
-			conditions.add(new BasicDBObject("requestTime", new BasicDBObject("$lte", condition.getEndTime() > 0)));	
+			conditions.add(new BasicDBObject("requestTime", new BasicDBObject("$lte", condition.getEndTime())));	
 		}
 		if(!Strings.isNullOrEmpty(condition.getQuestId())){
 			conditions.add(new BasicDBObject("questId", condition.getQuestId()));	

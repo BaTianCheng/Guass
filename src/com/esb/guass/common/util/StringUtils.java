@@ -86,13 +86,14 @@ public class StringUtils {
     }
     
     /**
-     * SQL参数替换
+     * SQL参数替换(待修改，别用了，有BUG)
      * @param sql
      * @param value
      */
-    public static String setSqlParam(String sql, Object value){
-    	return sql.replaceFirst("[?]", "'"+value+"'");
-    }
+//    public static String setSqlParam(String sql, Object value){
+//    	sql = sql.replaceFirst("[?]", "###?###");
+//    	return sql.replace("###?###", "'"+value+"'");
+//    }
     
     public static String getJsonMap(String value, String defaultStr){
     	if(Strings.isNullOrEmpty(value)){
@@ -103,5 +104,22 @@ public class StringUtils {
     		return value;
     	}
     }
-
+    
+    /**
+     * 字符填充
+     * @param ob
+     * @param len
+     * @param fillStr
+     * @return
+     */
+    public static String fill(Object ob,int len,char fillStr){
+    	String str = String.valueOf(ob);
+    	if(str.length() < len){
+    		for(int i=0;i<=len-str.length();i++){
+    			str = fillStr + str;
+    		}
+    	}
+    	return str;
+    }
+    
 }

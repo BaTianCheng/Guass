@@ -33,6 +33,11 @@ public class MongoDAO{
      */
     private MongoClient secondaryMongoClient = null;
     
+    /**
+     * 删除内容备份库
+     */
+    private String deletedTable = "tb_deleted";
+    
     
     /**
      * 操作类实例
@@ -186,8 +191,16 @@ public class MongoDAO{
      * @param collectionName
      * @param filter
      */
-    public void delete(String dbName, String collectionName, Bson filter) {  
+    public void delete(String dbName, String collectionName, Bson filter) {
+    	//备份数据
     	MongoCollection<Document> dbCollection = getCollection(dbName, collectionName);
+        FindIterable<Document> iterables = dbCollection.find(filter);  
+        MongoCursor<Document> cursor = iterables.iterator();  
+        while (cursor.hasNext()) {
+            insert(dbName, deletedTable, cursor.next().append("_table", collectionName));
+        }
+    	
+    	//物理删除
     	dbCollection.deleteMany(filter);  
     }
     
@@ -201,6 +214,24 @@ public class MongoDAO{
         List<Document> results = new ArrayList<Document>();
         MongoCollection<Document> dbCollection = getCollection(dbName, collectionName);
         FindIterable<Document> iterables = dbCollection.find();  
+        MongoCursor<Document> cursor = iterables.iterator();  
+        while (cursor.hasNext()) {  
+            results.add(cursor.next());  
+        }
+        return results;  
+    } 
+    
+    /**
+     * 查询所有文档 
+     * @param dbName
+     * @param collectionName
+     * @param sort
+     * @return
+     */
+    public List<Document> findAll(String dbName, String collectionName, Bson sort) {  
+        List<Document> results = new ArrayList<Document>();
+        MongoCollection<Document> dbCollection = getCollection(dbName, collectionName);
+        FindIterable<Document> iterables = dbCollection.find().sort(sort);
         MongoCursor<Document> cursor = iterables.iterator();  
         while (cursor.hasNext()) {  
             results.add(cursor.next());  
@@ -272,7 +303,12 @@ public class MongoDAO{
     public List<Document> findBy(String dbName, String collectionName, Bson filter, Bson sort,  int pageNum, int pageSize) {
         List<Document> results = new ArrayList<Document>();
         MongoCollection<Document> dbCollection = getCollection(dbName, collectionName);
-        FindIterable<Document> iterables = dbCollection.find(filter).sort(sort).skip((pageNum-1)*pageSize).limit(pageSize);
+        FindIterable<Document> iterables;
+        if(pageSize > 0){
+        	iterables = dbCollection.find(filter).sort(sort).skip((pageNum-1)*pageSize).limit(pageSize);
+        } else {
+        	iterables = dbCollection.find(filter).sort(sort);
+        }
         MongoCursor<Document> cursor = iterables.iterator();
         while (cursor.hasNext()) {  
             results.add(cursor.next());  

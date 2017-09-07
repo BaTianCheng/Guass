@@ -14,6 +14,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		 try {
+
 	        //启动缓存
 	        EhCacheService.init();
 	        

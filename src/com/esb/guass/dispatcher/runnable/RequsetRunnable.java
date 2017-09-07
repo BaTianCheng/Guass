@@ -23,7 +23,6 @@ public class RequsetRunnable implements Runnable{
 
 	@Override
 	public void run() {
-		//考虑到操作频繁，暂不入库，只入缓存
 		RequestEntity requestEntity = RequestQueue.poll();
 		requestEntity.setExcuteTime(System.currentTimeMillis());
 		requestEntity.setStatus(StatusConstant.CODE_1202);
