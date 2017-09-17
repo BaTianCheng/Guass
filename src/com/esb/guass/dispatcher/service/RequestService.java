@@ -216,10 +216,25 @@ public class RequestService {
 		if(!Strings.isNullOrEmpty(condition.getServiceCode())){
 			conditions.add(new BasicDBObject("serviceCode", condition.getServiceCode()));	
 		}
+		if(!Strings.isNullOrEmpty(condition.getModule())){
+			conditions.add(new BasicDBObject("module", condition.getModule()));	
+		}
 		if(!Strings.isNullOrEmpty(condition.getStatus())){
-			//状态特殊处理，1XXX表示小于XXX的状态
+			//状态特殊处理，1XXXX表示小于等于XXXX的状态，0表示不等于，2表示大于等于
 			if(condition.getStatus().length() >= 5){
-				conditions.add(new BasicDBObject("status", new BasicDBObject("$lte", condition.getStatus().substring(1))));	
+				switch(condition.getStatus().charAt(0)){
+					case '0':
+						conditions.add(new BasicDBObject("status", new BasicDBObject("$ne", condition.getStatus().substring(1))));	
+						break;
+					case '1':
+						conditions.add(new BasicDBObject("status", new BasicDBObject("$lte", condition.getStatus().substring(1))));	
+						break;
+					case '2':
+						conditions.add(new BasicDBObject("status", new BasicDBObject("$gte", condition.getStatus().substring(1))));	
+						break;
+					default:
+						break;
+				}
 			} else {
 				conditions.add(new BasicDBObject("status", condition.getStatus()));
 			}
@@ -243,7 +258,11 @@ public class RequestService {
 		pages.put("total",count);
 		pages.put("pageNum", condition.getPageNum());
 		if(condition.getPageSize() > 0){
-			pages.put("pages", (count / condition.getPageSize() + 1));
+			if(count % condition.getPageSize() == 0){
+				pages.put("pages", (count / condition.getPageSize()));
+			} else {
+				pages.put("pages", (count / condition.getPageSize() + 1));
+			}
 		}
 		
 		return pages;

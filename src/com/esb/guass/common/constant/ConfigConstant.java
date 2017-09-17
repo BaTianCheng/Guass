@@ -16,6 +16,9 @@ public class ConfigConstant {
 	public static String HTTP = "HTTP";
 	public static String API = "API";
 	
+	//代理模块名
+	public static String MODULE_PROXY = "proxy";
+	
 	//权限凭据--计划任务
 	public static String IDENTIFICATION_SYS_JOB = "SYS_JOB";
 	//计划任务扫描间隔

@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.esb.guass.common.util.LogUtils;
 
 /**
  * 事务管理器
@@ -45,10 +48,20 @@ public class TransactionManger {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int execute(String sql) throws SQLException{
+	public void execute(String... sqls) throws SQLException {
 		closeResources();
-		statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		return statement.executeUpdate();
+		String temp = "";
+		try{
+			final Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			for (String sql : sqls) {
+	        	temp = sql;
+	        	stmt.execute(sql);
+	        }
+			stmt.close();
+		 } catch (SQLException e) {
+	        LogUtils.info(temp);
+	        throw new RuntimeException(e);
+	    }
 	}
 	
 	/**

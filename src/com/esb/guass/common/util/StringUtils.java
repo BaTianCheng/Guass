@@ -85,11 +85,11 @@ public class StringUtils {
         return rtn;
     }
     
-    /**
-     * SQL参数替换(待修改，别用了，有BUG)
-     * @param sql
-     * @param value
-     */
+//    /**
+//     * SQL参数替换(待修改，别用了，有BUG)
+//     * @param sql
+//     * @param value
+//     */
 //    public static String setSqlParam(String sql, Object value){
 //    	sql = sql.replaceFirst("[?]", "###?###");
 //    	return sql.replace("###?###", "'"+value+"'");

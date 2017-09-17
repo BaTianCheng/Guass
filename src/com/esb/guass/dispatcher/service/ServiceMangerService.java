@@ -37,6 +37,7 @@ public class ServiceMangerService {
 	public static RequestEntity getRequestByService(RequestEntity requestEntity, HttpRequest req){
 		ServiceEntity serviceEntity = find(requestEntity.getServiceCode());
 		if(serviceEntity != null){
+			requestEntity.setModule(serviceEntity.getModule());
 			requestEntity.setServiceName(serviceEntity.getServiceName());
 			requestEntity.setRequestType(serviceEntity.getRequestType());
     		requestEntity.setUrl(serviceEntity.getMapUrl());

@@ -23,6 +23,11 @@ public class RequestEntity {
 	 * 请求类型
 	 */
 	private String requestType = ConfigConstant.HTTP;
+
+	/**
+	 * 模块
+	 */
+	private String module;
 	
 	/**
 	 * 请求的服务编码
@@ -153,6 +158,14 @@ public class RequestEntity {
 
 	public void setRequestType(String requestType) {
 		this.requestType = requestType;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public String getServiceCode() {
