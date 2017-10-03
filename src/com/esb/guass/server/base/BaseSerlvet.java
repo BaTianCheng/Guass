@@ -137,7 +137,6 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
      * @param resp
      * @param code
      * @param msg
-     * @param data
      */
     public void writeErrorResult(HttpResponse resp, String code, String msg){
     	ResponseResult result = new ResponseResult();

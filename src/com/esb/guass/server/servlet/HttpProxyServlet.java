@@ -10,6 +10,7 @@ import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 
 import com.alibaba.fastjson.JSON;
+import com.esb.guass.common.constant.ConfigConstant;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.util.LogUtils;
 import com.esb.guass.dispatcher.entity.RequestEntity;
@@ -43,6 +44,7 @@ public class HttpProxyServlet extends BaseSerlvet {
     		RequestEntity requestEntity = new RequestEntity();
     		try{
 	    		requestEntity.setQuestId(UUID.randomUUID().toString());
+	    		requestEntity.setModule(ConfigConstant.MODULE_PROXY);
 	    		requestEntity.setUrl(req.getParameter("url"));
 	    		requestEntity.setIdentification(req.getParameter("identification"));
 	    		requestEntity.setRequestOption(parseRequestOption(req));
