@@ -1,0 +1,30 @@
+<project name="ESB" default="do-all">
+
+	<path id="ESB.classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="do-all" depends="init, compile-java, create-jar" />
+
+	<target name="clean">
+		<delete dir="build" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="build/classes" />
+	</target>
+
+	<target name="compile-java" depends="init">
+		<javac srcdir="src" destdir="build/classes" source="1.8" deprecation="true" debug="true" includeAntRuntime="false">
+			<classpath refid="ESB.classpath" />
+		</javac>
+	</target>
+
+	<target name="create-jar">
+		<jar jarfile="build/esb-platform.jar">
+			<fileset dir="build/classes" includes="com/esb/guass/**/*.class" />
+		</jar>
+	</target>
+</project>

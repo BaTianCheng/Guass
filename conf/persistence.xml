@@ -13,15 +13,4 @@
         </properties>
     </persistence-unit>
     
-    <persistence-unit name="RGCMS" >
-        <shared-cache-mode>NONE</shared-cache-mode>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:orcltest"/>
-            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
-            <property name="javax.persistence.jdbc.user" value="test"/>
-            <property name="javax.persistence.jdbc.password" value="oratest"/>
-            <property name="javax.persistence.connections.limit" value="30"/>
-        </properties>
-    </persistence-unit>
-    
 </persistence>
