@@ -127,9 +127,15 @@ public class PlanningJobService {
 	 */
 	public static void update(PlanningJobEntity entity){
 		PlanningJobEntity originalEntity = find(entity.getJobCode());
-		entity.setLastTime(originalEntity.getLastTime());
+		if(entity.getLastTime()==0){
+			entity.setLastTime(originalEntity.getLastTime());
+		}
 		entity.setLastQuestId(originalEntity.getLastQuestId());
-		entity.setNextTime(getNextTime(entity));
+		if(entity.getStatus()==1){
+			entity.setNextTime(getNextTime(entity));
+		} else {
+			entity.setNextTime(0);
+		}
 		
 		Document doc = new Document(JSONObject.parseObject(entity.toString())) ;
 		Document filter = new Document();  
@@ -196,7 +202,11 @@ public class PlanningJobService {
 		pages.put("total",count);
 		pages.put("pageNum", condition.getPageNum());
 		if(condition.getPageSize() > 0){
-			pages.put("pages", (count / condition.getPageSize() + 1));
+			if(count % condition.getPageSize() == 0){
+				pages.put("pages", (count / condition.getPageSize()));
+			} else {
+				pages.put("pages", (count / condition.getPageSize() + 1));
+			}
 		}
 		
 		return pages;

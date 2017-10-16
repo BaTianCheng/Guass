@@ -93,7 +93,11 @@ public class RegularJobService {
 		pages.put("total",count);
 		pages.put("pageNum", condition.getPageNum());
 		if(condition.getPageSize() > 0){
-			pages.put("pages", (count / condition.getPageSize() + 1));
+			if(count % condition.getPageSize() == 0){
+				pages.put("pages", (count / condition.getPageSize()));
+			} else {
+				pages.put("pages", (count / condition.getPageSize() + 1));
+			}
 		}
 		
 		return pages;

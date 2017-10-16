@@ -1,8 +1,12 @@
 package com.esb.guass.job.runnable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.esb.guass.common.constant.ConfigConstant;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.util.LogUtils;
@@ -11,6 +15,7 @@ import com.esb.guass.dispatcher.entity.RequestOption;
 import com.esb.guass.dispatcher.service.ServiceMangerService;
 import com.esb.guass.job.entity.PlanningJobEntity;
 import com.esb.guass.job.service.PlanningJobService;
+import com.google.common.base.Strings;
 
 /**
  * 定时任务线程
@@ -36,6 +41,23 @@ public class PlanningJobRunnable implements Runnable{
 						requestEntity.setServiceName(jobEntity.getServiceName());
 						requestEntity.setAuthValidate(false);
 						requestEntity.setRequestOption(new RequestOption());
+						
+						//判断是否有参数
+						if(!Strings.isNullOrEmpty(jobEntity.getRemarks())){
+							try{
+								 JSONObject jsonObject = JSON.parseObject(jobEntity.getRemarks());
+								 if(jsonObject != null){
+									 Map<String, String> params = new HashMap<>();
+									 for(String key : jsonObject.keySet()){
+										 params.put(key, jsonObject.getString(key));
+									 }
+									 requestEntity.setParams(params);
+								 }
+							}
+							catch(Exception ex){
+								LogUtils.error(jobEntity.getJobName()+"参数无法转换", ex);
+							}
+						}
 						
 						//更新计划任务内容
 						LogUtils.info("执行计划任务："+jobEntity.getJobName()+"->"+requestEntity.getQuestId());
