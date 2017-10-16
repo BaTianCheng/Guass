@@ -22,7 +22,7 @@ public class CsvUtils {
 		List<String[]> csvList = new ArrayList<String[]>(); 
 		try {
 			String csvFilePath = path + filename;
-			CsvReader reader = new CsvReader(csvFilePath, ',', Charset.forName("GBK")); 
+			CsvReader reader = new CsvReader(csvFilePath, ',', Charset.forName("UTF-8")); 
 			reader.readHeaders();
 			csvList.add(reader.getValues());
 			while (reader.readRecord()) { //逐行读入除表头的数据    
@@ -46,7 +46,7 @@ public class CsvUtils {
 	public static String writeCsv(String path, String filename, List<String[]> csvList) {
 		try {
 			String csvFilePath = path + filename;
-			CsvWriter wr = new CsvWriter(csvFilePath, ',', Charset.forName("GBK"));
+			CsvWriter wr = new CsvWriter(csvFilePath, ',', Charset.forName("UTF-8"));
 			if(csvList != null && csvList.size() > 0){
 				for(String[] strs : csvList){
 					wr.writeRecord(strs);

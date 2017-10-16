@@ -220,4 +220,9 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 	public static int getCurrentTimeStamp() {
 		return Integer.valueOf(String.valueOf(System.currentTimeMillis() / 1000));
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(getDate("yyyyMMdd", -1));
+	}
+	
 }

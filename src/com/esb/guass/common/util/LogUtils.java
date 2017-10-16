@@ -30,5 +30,14 @@ public class LogUtils {
     public static void error(String msg, Throwable thrown){
     	logger.log(Level.SEVERE, msg, thrown);
     }
+    
+    /**
+     * 输出错误
+     * @param msg
+     * @param thrown
+     */
+    public static void error(String msg){
+    	logger.log(Level.SEVERE, msg);
+    }
 
 }

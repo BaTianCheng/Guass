@@ -24,17 +24,24 @@ public class CompressUtils {
 	        }catch (IOException e) {
 	        	LogUtils.error("文件无法生成", e);
 	        }
-	        byte[] buf = new byte[16 * 1024];
+	        byte[] buf = new byte[10*1024];
 	        int len = 0;
 	        try {
-	            while ((len = in.read()) > 0) {
-	                out.write(buf, 0, len);
-	            }
-	            in.close();
-	            out.flush();
-	            out.close();
+	        	 while (((in.available()>10*1024)&& (in.read(buf)) > 0)) {    
+	                 out.write(buf);               
+	             }          
+	             len = in.available();              
+	             in.read(buf, 0, len);              
+	             out.write(buf, 0, len);                       
+	             in.close();  
+	             out.flush();  
+	             out.close();  
 	        }catch (IOException e) {
 	        	LogUtils.error("文件压缩失败，"+inFileName, e);
 	        }
 	    }
+	 
+	 public static void main(String[] args){
+		 compressFileByGZ(System.getProperty("user.dir")+"/files/webank/ods_table.csv");
+	 }
 }

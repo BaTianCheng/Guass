@@ -31,8 +31,12 @@ public class SQLConstruction {
 	 * @param str
 	 */
 	public void setString(int index, String str){
-		str = str.replace("'", "''");
-		replaceStrs.put(index, "'"+str +"'");
+		if(str == null || str.equals("\\N")){
+			replaceStrs.put(index, "null");
+		} else {
+			str = str.replace("'", "''");
+			replaceStrs.put(index, "'"+str +"'");
+		}
 	}
 	
 	/**
@@ -41,7 +45,12 @@ public class SQLConstruction {
 	 * @param bigDecimal
 	 */
 	public void setBigDecimal(int index, BigDecimal bigDecimal) {
-		replaceStrs.put(index, "'"+bigDecimal.stripTrailingZeros().toPlainString()+"'");
+		if(bigDecimal == null){
+			replaceStrs.put(index, "null");
+		} else {
+			replaceStrs.put(index, "'"+bigDecimal.stripTrailingZeros().toPlainString()+"'");
+		}
+		
 	}
 	
 	/**
@@ -50,7 +59,11 @@ public class SQLConstruction {
 	 * @param str
 	 */
 	public void setObject(int index, Object obj){
-		setString(index, String.valueOf(obj));
+		if(obj == null){
+			setString(index, null);
+		} else {
+			setString(index, String.valueOf(obj));
+		}
 	}
 
 	/**

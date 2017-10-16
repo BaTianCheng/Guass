@@ -1,10 +1,13 @@
 package com.esb.guass.common.datasource;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.function.Consumer;
 
 import com.esb.guass.common.util.LogUtils;
 
@@ -43,6 +46,20 @@ public class TransactionManger {
 	}
 	
 	/**
+	 * 查询
+	 * @param sql
+	 * @param consumer
+	 * @return
+	 * @throws SQLException
+	 */
+	public void query(String sql, Consumer<ResultSet> consumer) throws SQLException{
+		closeResources();
+		statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet set = statement.executeQuery();
+		consumer.accept(set);
+	}
+	
+	/**
 	 * 执行
 	 * @param sql
 	 * @return
@@ -60,6 +77,35 @@ public class TransactionManger {
 			stmt.close();
 		 } catch (SQLException e) {
 	        LogUtils.info(temp);
+	        throw new RuntimeException(e);
+	    }
+	}
+	
+	/**
+	 * 执行
+	 * @param sql
+	 * @return
+	 * @throws SQLException
+	 */
+	public void batchExecute(List<String> sqls) throws SQLException {
+		closeResources();
+		try{
+			final Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			int count = 0;
+			for (String sql : sqls) {
+	        	stmt.addBatch(sql);
+	        	count++;
+	        	if(count %5000==0){
+	        		stmt.executeBatch();
+	        	}
+	        }
+			stmt.executeBatch();
+			stmt.close();
+		 } catch (SQLException e) {
+			 if(e instanceof BatchUpdateException){
+				int no = ((BatchUpdateException) e).getUpdateCounts().length;
+				LogUtils.info("第"+no+"条语句出错，"+sqls.get(no));
+			 }
 	        throw new RuntimeException(e);
 	    }
 	}
