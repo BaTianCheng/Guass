@@ -187,8 +187,8 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     	if(headers != null){
     		for(Header header : headers){
     			if(header.getName().toLowerCase().equals("content-type")){
-    				resp.setHeader(header.getName(), header.getValue());
-    			} else if (header.getName().equals("content-length") || header.getName().equals("date")){
+    				resp.setContentType(header.getValue());
+    			} else if (header.getName().toLowerCase().equals("content-length") || header.getName().toLowerCase().equals("date")){
     				continue;
     			} else {
     				continue;
@@ -196,7 +196,7 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
     			}
     		}
     	} else {
-    		resp.setHeader("content-type", "application/json; charset=utf-8");
+    		resp.setContentType("application/json; charset=utf-8");
     	}
 		resp.finish(data);
     }

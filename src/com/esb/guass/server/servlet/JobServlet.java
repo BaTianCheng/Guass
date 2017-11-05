@@ -37,6 +37,12 @@ public class JobServlet extends BaseSerlvet {
     public void getRegularJobs(HttpRequest req, HttpResponse resp) throws IOException {
     	try{
 	    	CommonCondition condition = req.getJsonParameter(CommonCondition.class, "condition");
+	    	if(!Strings.isNullOrEmpty(req.getParameter("pageNum"))){
+	    		condition.setPageNum(req.getIntParameter("pageNum", 1));
+	    	}
+	    	if(!Strings.isNullOrEmpty(req.getParameter("pageSize"))){
+	    		condition.setPageSize(req.getIntParameter("pageSize", 0));
+	    	}
 	    	this.writeSuccessResult(resp, RegularJobService.findPages(condition));
     	}
     	catch(ConvertException ex){
@@ -59,6 +65,12 @@ public class JobServlet extends BaseSerlvet {
     public void getPlanningJobs(HttpRequest req, HttpResponse resp) throws IOException {
     	try{
 	    	CommonCondition condition = req.getJsonParameter(CommonCondition.class, "condition");
+	    	if(!Strings.isNullOrEmpty(req.getParameter("pageNum"))){
+	    		condition.setPageNum(req.getIntParameter("pageNum", 1));
+	    	}
+	    	if(!Strings.isNullOrEmpty(req.getParameter("pageSize"))){
+	    		condition.setPageSize(req.getIntParameter("pageSize", 0));
+	    	}
 	    	this.writeSuccessResult(resp, PlanningJobService.findPages(condition));
     	}
     	catch(ConvertException ex){
@@ -116,6 +128,12 @@ public class JobServlet extends BaseSerlvet {
     	} else {
         	try{
 	    		CommonCondition condition = req.getJsonParameter(CommonCondition.class, "condition");
+	        	if(!Strings.isNullOrEmpty(req.getParameter("pageNum"))){
+	        		condition.setPageNum(req.getIntParameter("pageNum", 1));
+	        	}
+	        	if(!Strings.isNullOrEmpty(req.getParameter("pageSize"))){
+	        		condition.setPageSize(req.getIntParameter("pageSize", 0));
+	        	}
 	    		PlanningJobEntity entity = PlanningJobService.find(req.getParameter("jobCode"));
 	    		condition.setIdentification(ConfigConstant.IDENTIFICATION_SYS_JOB);
 	    		condition.setServiceCode(entity.getServiceCode());

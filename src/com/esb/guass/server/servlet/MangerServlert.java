@@ -106,7 +106,5 @@ public class MangerServlert extends BaseSerlvet {
     	
     	this.writeSuccessResult(resp, RequestService.findPages(condition));	
     }
-    
-    
 
 }
