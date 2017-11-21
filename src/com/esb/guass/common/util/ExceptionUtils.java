@@ -8,6 +8,7 @@ import java.io.StringWriter;
 
 /**
  * 关于异常的工具类.
+ * 
  * @author calvin
  * @version 2013-01-15
  */
@@ -17,7 +18,7 @@ public class ExceptionUtils {
 	 * 将CheckedException转换为UncheckedException.
 	 */
 	public static RuntimeException unchecked(Exception e) {
-		if (e instanceof RuntimeException) {
+		if(e instanceof RuntimeException) {
 			return (RuntimeException) e;
 		} else {
 			return new RuntimeException(e);
@@ -28,7 +29,7 @@ public class ExceptionUtils {
 	 * 将ErrorStack转化为String.
 	 */
 	public static String getStackTraceAsString(Throwable e) {
-		if (e == null){
+		if(e == null) {
 			return "";
 		}
 		StringWriter stringWriter = new StringWriter();
@@ -41,9 +42,9 @@ public class ExceptionUtils {
 	 */
 	public static boolean isCausedBy(Exception ex, @SuppressWarnings("unchecked") Class<? extends Exception>... causeExceptionClasses) {
 		Throwable cause = ex.getCause();
-		while (cause != null) {
-			for (Class<? extends Exception> causeClass : causeExceptionClasses) {
-				if (causeClass.isInstance(cause)) {
+		while(cause != null) {
+			for(Class<? extends Exception> causeClass : causeExceptionClasses) {
+				if(causeClass.isInstance(cause)) {
 					return true;
 				}
 			}
@@ -51,5 +52,5 @@ public class ExceptionUtils {
 		}
 		return false;
 	}
-	
+
 }

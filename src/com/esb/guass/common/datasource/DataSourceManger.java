@@ -9,25 +9,27 @@ import org.redkale.source.DataSources;
 
 /**
  * 数据源管理器
+ * 
  * @author wicks
  */
 public class DataSourceManger {
-	
+
 	public static Map<String, DataSource> dataSources = new HashMap<>();
-	
-	//设置数据库文件读取路径
-	static{
-		System.setProperty(DataSources.DATASOURCE_CONFPATH,"conf/persistence.xml");
+
+	// 设置数据库文件读取路径
+	static {
+		System.setProperty(DataSources.DATASOURCE_CONFPATH, "conf/persistence.xml");
 	}
-	
+
 	/**
 	 * 获取数据源
+	 * 
 	 * @param sourceName
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static DataSource getDataSource(String sourceName) throws IOException{
-		if(!dataSources.containsKey(sourceName)){
+	public static DataSource getDataSource(String sourceName) throws IOException {
+		if(!dataSources.containsKey(sourceName)) {
 			DataSource ds = DataSources.createDataSource(sourceName);
 			dataSources.put(sourceName, ds);
 		}

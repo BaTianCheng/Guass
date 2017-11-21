@@ -9,13 +9,13 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * 时间工具类
+ * 
  * @author wicks
  */
 public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils {
 
-	private static String[] parsePatterns = { "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM",
-			"yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd",
-			"yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM", "yyyyMMddHHmmss","YYYYMMDD" };
+	private static String[] parsePatterns = {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd",
+			"yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM", "yyyyMMddHHmmss", "yyyyMMdd"};
 
 	/**
 	 * 得到当前日期字符串 格式（yyyy-MM-dd）
@@ -33,6 +33,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 获取修正日期
+	 * 
 	 * @param pattern
 	 * @param dayModify
 	 * @return
@@ -43,18 +44,19 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 		Date time = cal.getTime();
 		return DateFormatUtils.format(time, pattern);
 	}
-	
+
 	/**
 	 * 获取修正日期
+	 * 
 	 * @param pattern
 	 * @param dayModify
 	 * @return
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public static String getDate(String pattern, String strDate, int dayModify) throws ParseException {
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf= new SimpleDateFormat(pattern);
-		Date date =sdf.parse(strDate);
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(strDate);
 		cal.setTime(date);
 		cal.add(Calendar.DATE, dayModify);
 		Date time = cal.getTime();
@@ -74,7 +76,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 	 */
 	public static String formatDate(Date date, Object... pattern) {
 		String formatDate = null;
-		if (pattern != null && pattern.length > 0) {
+		if(pattern != null && pattern.length > 0) {
 			formatDate = DateFormatUtils.format(date, pattern[0].toString());
 		} else {
 			formatDate = DateFormatUtils.format(date, "yyyy-MM-dd");
@@ -132,24 +134,24 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 	}
 
 	/**
-	 * 日期型字符串转化为日期 格式
-	 * { "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", 
-	 *   "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm",
-	 *   "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm" }
+	 * 日期型字符串转化为日期 格式 { "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm",
+	 * "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy.MM.dd",
+	 * "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm" }
 	 */
 	public static Date parseDate(Object str) {
-		if (str == null) {
+		if(str == null) {
 			return null;
 		}
 		try {
 			return parseDate(str.toString(), parsePatterns);
-		} catch (ParseException e) {
+		} catch(ParseException e) {
 			return null;
 		}
 	}
 
 	/**
 	 * 获取过去的天数
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -160,6 +162,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 获取过去的小时
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -170,6 +173,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 获取过去的分钟
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -180,6 +184,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 转换为时间（天,时:分:秒.毫秒）
+	 * 
 	 * @param timeMillis
 	 * @return
 	 */
@@ -207,6 +212,7 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 获取当前时间
+	 * 
 	 * @return
 	 */
 	public static Date getCurrentTime() {
@@ -215,14 +221,15 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 
 	/**
 	 * 获取当前时间戳
+	 * 
 	 * @return
 	 */
 	public static int getCurrentTimeStamp() {
 		return Integer.valueOf(String.valueOf(System.currentTimeMillis() / 1000));
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(getDate("yyyyMMdd", -1));
 	}
-	
+
 }

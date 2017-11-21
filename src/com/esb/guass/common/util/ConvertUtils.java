@@ -14,17 +14,19 @@ import com.google.common.base.Strings;
 
 /**
  * 数据类型转换工具类
+ * 
  * @author wicks
  */
 public final class ConvertUtils {
 
 	/**
 	 * 将字符串转换为Double
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static Double toDouble(String str) {
-		if (Strings.isNullOrEmpty(str)) {
+		if(Strings.isNullOrEmpty(str)) {
 			return null;
 		} else {
 			return Double.valueOf(str);
@@ -32,12 +34,32 @@ public final class ConvertUtils {
 	}
 	
 	/**
+	 * 将Obj换为Double
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static Double toDouble(Object obj) {
+		if(obj == null) {
+			return null;
+		} else {
+			String str = String.valueOf(obj);
+			if(Strings.isNullOrEmpty(str)){
+				return 0.0;
+			} else {
+				return Double.valueOf(str);
+			}
+		}
+	}
+
+	/**
 	 * 将字符串转换为Integer
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static Integer toInteger(String str) {
-		if (Strings.isNullOrEmpty(str)) {
+		if(Strings.isNullOrEmpty(str)) {
 			return 0;
 		} else {
 			return Integer.valueOf(str);
@@ -46,6 +68,7 @@ public final class ConvertUtils {
 
 	/**
 	 * 将小数保留两位
+	 * 
 	 * @param num
 	 * @return
 	 */
@@ -54,26 +77,52 @@ public final class ConvertUtils {
 		double newNum = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return newNum;
 	}
-	
+
 	/**
 	 * 转换字符串数组
+	 * 
 	 * @param list
 	 * @return
 	 */
-	public static List<String> toStrings(List<Integer> list){
+	public static List<String> toStrings(List<Integer> list) {
 		List<String> strs = new ArrayList<String>();
-		if(list == null){
+		if(list == null) {
 			return strs;
 		} else {
-			for(Object obj : list){
+			for(Object obj : list) {
 				strs.add(obj.toString());
 			}
 			return strs;
 		}
 	}
+	
+	public static String toString(Object obj){
+		if(obj == null){
+			return null;
+		} else {
+			return String.valueOf(obj);
+		}
+	}
+	
+	public static String getString(Object obj){
+		if(obj == null){
+			return "";
+		} else {
+			return String.valueOf(obj).trim();
+		}
+	}
+	
+	public static String toMinusString(Object obj){
+		if(obj == null){
+			return null;
+		} else {
+			return "-"+String.valueOf(obj);
+		}
+	}
 
 	/**
 	 * Map转换为Bean
+	 * 
 	 * @param <T>
 	 * @param paramMap
 	 * @param cls
@@ -87,7 +136,7 @@ public final class ConvertUtils {
 
 			// 20161122忽略下划线,全部大写
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+			for(Map.Entry<String, Object> entry : paramMap.entrySet()) {
 				map.put(entry.getKey().toUpperCase().replaceAll("_", ""), entry.getValue());
 			}
 
@@ -95,40 +144,39 @@ public final class ConvertUtils {
 
 			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 
-			for (PropertyDescriptor property : propertyDescriptors) {
+			for(PropertyDescriptor property : propertyDescriptors) {
 				// 忽略大小写要全部大写，忽略下划线
-				String beanKey = ignoreCase ? property.getName().toUpperCase().replaceAll("_", "")
-						: property.getName().replaceAll("_", "");
+				String beanKey = ignoreCase ? property.getName().toUpperCase().replaceAll("_", "") : property.getName().replaceAll("_", "");
 
 				// 对于BigDecimal的单独处理
-				if (property.getPropertyType().toString().equals("class java.math.BigDecimal")) {
+				if(property.getPropertyType().toString().equals("class java.math.BigDecimal")) {
 					Object value = map.get(beanKey);
-					if (value == null)
+					if(value == null)
 						value = 0;
 					BigDecimal big_value = new BigDecimal(value.toString());
 					Method setter = property.getWriteMethod();
 					setter.invoke(obj, big_value);
 
 					// 对于Integer的单独处理
-				} else if (property.getPropertyType().toString().equals("class java.lang.Integer")) {
+				} else if(property.getPropertyType().toString().equals("class java.lang.Integer")) {
 					Object value = map.get(beanKey);
-					if (value == null)
+					if(value == null)
 						value = 0;
 					Integer i_value = new Integer(value.toString());
 					Method setter = property.getWriteMethod();
 					setter.invoke(obj, i_value);
 
 					// 对于Short的单独处理
-				} else if (property.getPropertyType().toString().equals("class java.lang.Short")) {
+				} else if(property.getPropertyType().toString().equals("class java.lang.Short")) {
 					Object value = map.get(beanKey);
-					if (value == null)
+					if(value == null)
 						value = 0;
 					Short s_value = new Short(value.toString());
 					Method setter = property.getWriteMethod();
 					setter.invoke(obj, s_value);
 				} else {
 					Object value = null;
-					if (map.containsKey(beanKey)) {
+					if(map.containsKey(beanKey)) {
 						value = map.get(beanKey);
 						// 得到property对应的setter方法
 						Method setter = property.getWriteMethod();
@@ -139,7 +187,7 @@ public final class ConvertUtils {
 
 			}
 
-		} catch (Exception e) {
+		} catch(Exception e) {
 
 		}
 
@@ -147,15 +195,16 @@ public final class ConvertUtils {
 	}
 
 	/**
-	 * 将二进制转换成16进制 
-	 * @param buf 
-	 * @return 
+	 * 将二进制转换成16进制
+	 * 
+	 * @param buf
+	 * @return
 	 */
 	public static String parseByte2HexStr(byte buf[]) {
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < buf.length; i++) {
+		for(int i = 0; i < buf.length; i++) {
 			String hex = Integer.toHexString(buf[i] & 0xFF);
-			if (hex.length() == 1) {
+			if(hex.length() == 1) {
 				hex = '0' + hex;
 			}
 			sb.append(hex.toUpperCase());
@@ -164,15 +213,16 @@ public final class ConvertUtils {
 	}
 
 	/**
-	 * 将16进制转换为二进制 
-	 * @param hexStr 
-	 * @return 
+	 * 将16进制转换为二进制
+	 * 
+	 * @param hexStr
+	 * @return
 	 */
 	public static byte[] parseHexStr2Byte(String hexStr) {
-		if (hexStr.length() < 1)
+		if(hexStr.length() < 1)
 			return null;
 		byte[] result = new byte[hexStr.length() / 2];
-		for (int i = 0; i < hexStr.length() / 2; i++) {
+		for(int i = 0; i < hexStr.length() / 2; i++) {
 			int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);
 			int low = Integer.parseInt(hexStr.substring(i * 2 + 1, i * 2 + 2), 16);
 			result[i] = (byte) (high * 16 + low);

@@ -1,7 +1,7 @@
 package com.esb.guass.common.constant;
 
 public class StatusConstant {
-	
+
 	public static String CODE_200 = "200";
 	public static String CODE_201 = "201";
 	public static String CODE_300 = "300";
@@ -16,7 +16,7 @@ public class StatusConstant {
 	public static String CODE_1400 = "1400";
 	public static String CODE_1402 = "1402";
 	public static String CODE_1404 = "1404";
-	
+
 	public static String CODE_200_MSG = "响应成功";
 	public static String CODE_201_MSG = "结果尚未返回";
 	public static String CODE_300_MSG = "请求权限不足";
@@ -31,5 +31,5 @@ public class StatusConstant {
 	public static String CODE_1400_MSG = "请求失败";
 	public static String CODE_1402_MSG = "请求超时";
 	public static String CODE_1404_MSG = "请求地址错误";
-	
+
 }

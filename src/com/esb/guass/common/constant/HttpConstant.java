@@ -2,6 +2,7 @@ package com.esb.guass.common.constant;
 
 /**
  * HTTP常量类
+ * 
  * @author wicks
  */
 public class HttpConstant {
@@ -10,7 +11,7 @@ public class HttpConstant {
 	 * 默认字符集
 	 */
 	public static String DEFAULT_CHARSET = "UTF8";
-	
+
 	/**
 	 * 默认方法
 	 */
