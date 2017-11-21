@@ -1,0 +1,98 @@
+<configuration>
+
+	<property name="APP_HOME" value="D:/mars-workspace/ESB" />   
+
+	<!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 各类基本日志输出 -->
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${APP_HOME}/logs/common/log.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${APP_HOME}/logs/common/log-%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+			<MaxHistory>10000</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10GB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+	
+	<!-- 实时任务日志输出 -->
+	<appender name="job_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${APP_HOME}/logs/jobs/log.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${APP_HOME}/logs/jobs/log-%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+			<MaxHistory>10000</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10GB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+	
+	<!-- 电子发票日志输出 -->
+	<appender name="invoice_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${APP_HOME}/logs/invoice/log.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${APP_HOME}/logs/invoice/log-%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+			<MaxHistory>10000</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10GB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<!-- 日志级别 -->
+	<root>
+		<level value="error" />
+		<level value="info" />
+		<appender-ref ref="file" />
+	</root>
+	
+	<logger name="com.esb.guass.job">  
+    <level value="error" />
+		<level value="info" />
+    <appender-ref ref="job_file" />  
+    <appender-ref ref="console" />  
+	</logger>  
+	
+	<logger name="com.baiwang">  
+    <level value="error" />
+		<level value="info" />
+    <appender-ref ref="invoice_file" />  
+    <appender-ref ref="console" />  
+	</logger>
+	
+	<logger name="com.esb.jinying.invoice">  
+    <level value="error" />
+		<level value="info" />
+    <appender-ref ref="invoice_file" />  
+    <appender-ref ref="console" />  
+	</logger>
+
+</configuration>  

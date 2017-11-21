@@ -25,6 +25,13 @@
          overflowToDisk="true"
          memoryStoreEvictionPolicy="LRU"/>
          
+   <!-- 访问者缓存 -->
+  <cache name="VisitorCache"
+         maxElementsInMemory="1000"
+         eternal="true"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LRU"/>
+         
   <!-- 服务缓存 -->
   <cache name="ServiceCache"
          maxElementsInMemory="1000"
