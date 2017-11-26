@@ -6,16 +6,17 @@ package com.esb.guass.client.entity;
 
 /**
  * HTTP返回结果类型
+ * 
  * @author wicks
  */
 public enum HttpResultType {
-    /**
-     * 字符串方式
-     */
-    STRING,
+	/**
+	 * 字符串方式
+	 */
+	STRING,
 
-    /**
-     * 字节数组方式
-     */
-    BYTES
+	/**
+	 * 字节数组方式
+	 */
+	BYTES
 }
