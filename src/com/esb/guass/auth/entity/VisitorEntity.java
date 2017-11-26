@@ -3,17 +3,17 @@ package com.esb.guass.auth.entity;
 import java.util.List;
 
 public class VisitorEntity {
-	
+
 	private String appId;
-	
+
 	private String appKey;
-	
+
 	private String appName;
-	
+
 	private String appType;
-	
+
 	private List<String> serviceCodes;
-	
+
 	private String remarks;
 
 	public String getAppId() {

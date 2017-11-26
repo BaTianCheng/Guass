@@ -10,43 +10,41 @@ import com.esb.guass.dispatcher.entity.RequestEntity;
 
 /**
  * 权限API
+ * 
  * @author wicks
  */
 public class AuthAPI {
 
 	/**
 	 * 权限校验
+	 * 
 	 * @param entity
 	 * @return
 	 */
-	public static String authCheck(RequestEntity entity){
-		try{
-			if(entity.isAuthValidate() && !WhiteListService.isWhiteList(entity.getRequestIP())){
+	public static String authCheck(RequestEntity entity) {
+		try {
+			if(entity.isAuthValidate() && !WhiteListService.isWhiteList(entity.getRequestIP())) {
 				VisitorEntity visitor = VisitorService.find(entity.getAppId());
-				if(visitor == null){
-					//用户不存在，权限不足
+				if(visitor == null) {
+					// 用户不存在，权限不足
 					return StatusConstant.CODE_300;
 				}
-				if(visitor.getServiceCodes() != null && visitor.getServiceCodes().contains(entity.getServiceCode())){
-					if(!SignValidateService.validate(entity, visitor.getAppKey())){
-						//签名校验失败
+				if(visitor.getServiceCodes() != null && visitor.getServiceCodes().contains(entity.getServiceCode())) {
+					if(!SignValidateService.validate(entity, visitor.getAppKey())) {
+						// 签名校验失败
 						return StatusConstant.CODE_301;
 					}
 				} else {
-					//用户无权访问，权限不足
+					// 用户无权访问，权限不足
 					return StatusConstant.CODE_300;
 				}
 			}
-			
+
 			return StatusConstant.CODE_200;
-		}
-		catch(Exception ex){
+		} catch(Exception ex) {
 			LogUtils.error("权限校验失败", ex);
 			return StatusConstant.CODE_300;
 		}
 	}
-	
-	
-	
-	
+
 }
