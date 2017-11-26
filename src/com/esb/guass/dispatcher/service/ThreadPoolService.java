@@ -8,30 +8,33 @@ import com.esb.guass.common.constant.ConfigConstant;
 
 /**
  * 线程池服务类
+ * 
  * @author wicks
  */
 public class ThreadPoolService {
-	
+
 	private static ExecutorService fixedThreadPool;
-	
-	static{
-		fixedThreadPool = Executors.newFixedThreadPool(ConfigConstant.THREADS_MAX_NUM);  
+
+	static {
+		fixedThreadPool = Executors.newFixedThreadPool(ConfigConstant.THREADS_MAX_NUM);
 	}
-	
+
 	/**
 	 * 执行线程
+	 * 
 	 * @param runnable
 	 */
-	public static void execute(Runnable runnable){
+	public static void execute(Runnable runnable) {
 		fixedThreadPool.execute(runnable);
 	}
-	
+
 	/**
 	 * 获取正在执行数
+	 * 
 	 * @return
 	 */
-	public static int getActiveCount(){
-		return ((ThreadPoolExecutor)fixedThreadPool).getActiveCount();
+	public static int getActiveCount() {
+		return ((ThreadPoolExecutor) fixedThreadPool).getActiveCount();
 	}
 
 }

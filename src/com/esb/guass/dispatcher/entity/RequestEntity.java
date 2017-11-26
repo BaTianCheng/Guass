@@ -1,5 +1,6 @@
 package com.esb.guass.dispatcher.entity;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.apache.commons.httpclient.Header;
@@ -10,15 +11,18 @@ import com.esb.guass.common.constant.HttpConstant;
 
 /**
  * 请求业务实例
+ * 
  * @author wicks
  */
-public class RequestEntity {
-	
+public class RequestEntity implements Serializable{
+
+	private static final long serialVersionUID = 8690025200982556553L;
+
 	/**
 	 * 任务编号
 	 */
 	private String questId;
-	
+
 	/**
 	 * 请求类型
 	 */
@@ -28,27 +32,27 @@ public class RequestEntity {
 	 * 模块
 	 */
 	private String module;
-	
+
 	/**
 	 * 请求的服务编码
 	 */
 	private String serviceCode;
-	
+
 	/**
 	 * 请求的服务名称
 	 */
 	private String serviceName;
-	
+
 	/**
 	 * 请求路径
 	 */
 	private String url;
-	
+
 	/**
 	 * AppId标记
 	 */
 	private String appId;
-	
+
 	/**
 	 * 签名
 	 */
@@ -58,92 +62,102 @@ public class RequestEntity {
 	 * 身份标记
 	 */
 	private String identification;
-	
+
 	/**
 	 * 异步标志
 	 */
 	private boolean async = true;
-	
+
 	/**
 	 * 权限认证标志
 	 */
 	private boolean authValidate = false;
-	
+
 	/**
 	 * 是否直接返回结果（同步时无效）
 	 */
 	private boolean directReturn = false;
-	
+
 	/**
 	 * 状态
 	 */
 	private String status;
 	
 	/**
+	 * 子状态
+	 */
+	private String subStatus;
+
+	/**
 	 * 请求选项
 	 */
 	private RequestOption requestOption;
-	
+
 	/**
 	 * 头部数据
 	 */
 	private Map<String, String> head;
-	
+
 	/**
 	 * 参数
 	 */
 	private Map<String, String> params;
-	
+
 	/**
 	 * POST体数据
 	 */
 	private String postBody;
-	
+
 	/**
 	 * 请求时间
 	 */
 	private long requestTime;
-	
+
 	/**
 	 * 执行时间
 	 */
 	private long excuteTime;
-	
+
 	/**
 	 * 响应时间
 	 */
 	private long responseTime;
-	
+
 	/**
 	 * 请求IP
 	 */
 	private String requestIP;
-	
+
 	/**
 	 * 结果字符串
 	 */
 	private String result;
 	
 	/**
+	 * 消息信息
+	 */
+	private String message;
+
+	/**
 	 * 响应字符集
 	 */
 	private String responseCharset = HttpConstant.DEFAULT_CHARSET;
-	
+
 	/**
 	 * 响应内容格式
 	 */
 	private Header[] responseHeaders;
-	
+
 	/**
 	 * 返回的内容格式（仅限直接返回）
 	 */
 	private String responseContentType;
-	
+
 	/**
 	 * 返回的错误信息（仅限直接返回）
 	 */
 	private String responseErrorMsg;
-	
+
 	public String getQuestId() {
 		return questId;
 	}
@@ -175,7 +189,7 @@ public class RequestEntity {
 	public void setServiceCode(String serviceCode) {
 		this.serviceCode = serviceCode;
 	}
-	
+
 	public String getServiceName() {
 		return serviceName;
 	}
@@ -199,7 +213,7 @@ public class RequestEntity {
 	public void setAppId(String appId) {
 		this.appId = appId;
 	}
-	
+
 	public String getSign() {
 		return sign;
 	}
@@ -273,10 +287,10 @@ public class RequestEntity {
 	}
 
 	public String getPostBody() {
-		if(postBody==null && requestOption != null && requestOption.isBody() == true){
-            if(getParams() != null){
-            	return JSON.toJSONString(getParams());
-            }
+		if(postBody == null && requestOption != null && requestOption.isBody() == true) {
+			if(getParams() != null) {
+				return JSON.toJSONString(getParams());
+			}
 		}
 		return postBody;
 	}
@@ -357,8 +371,24 @@ public class RequestEntity {
 		this.responseErrorMsg = responseErrorMsg;
 	}
 
+	public String getSubStatus() {
+		return subStatus;
+	}
+
+	public void setSubStatus(String subStatus) {
+		this.subStatus = subStatus;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
 

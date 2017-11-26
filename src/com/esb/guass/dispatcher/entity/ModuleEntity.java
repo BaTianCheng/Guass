@@ -1,13 +1,17 @@
 package com.esb.guass.dispatcher.entity;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSON;
 
-public class ModuleEntity {
-	
+public class ModuleEntity implements Serializable{
+
+	private static final long serialVersionUID = -2087064044723262702L;
+
 	private String module;
-	
+
 	private String name;
-	
+
 	private int sortNum;
 
 	public String getModule() {
@@ -33,9 +37,9 @@ public class ModuleEntity {
 	public void setSortNum(int sortNum) {
 		this.sortNum = sortNum;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
 

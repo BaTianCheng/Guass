@@ -1,5 +1,6 @@
 package com.esb.guass.dispatcher.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -12,83 +13,84 @@ import com.alibaba.fastjson.JSON;
  * 
  * @author wicks
  */
-public class ServiceEntity {
-	
+public class ServiceEntity implements Serializable{
+
+	private static final long serialVersionUID = 1647971842884645782L;
+
 	/**
 	 * 服务编码
 	 */
 	private String serviceCode;
-	
+
 	/**
 	 * 服务名称
 	 */
 	private String serviceName;
-	
+
 	/**
 	 * 所属模块
 	 */
 	private String module;
-	
+
 	/**
 	 * 请求类型
 	 */
 	private String requestType;
-	
+
 	/**
 	 * 映射路径
 	 */
 	private String mapUrl;
-	
+
 	/**
 	 * 异步标志
 	 */
 	private boolean async = true;
-	
+
 	/**
 	 * 权限认证标志
 	 */
 	private boolean authValidate = false;
-	
+
 	/**
 	 * 是否直接返回结果（同步时无效）
 	 */
 	private boolean directReturn = false;
-	
+
 	/**
 	 * 请求选项
 	 */
 	private RequestOption requestOption;
-	
+
 	/**
 	 * 参数列表
 	 */
 	private List<String> params;
-	
+
 	/**
 	 * 参数名列表
 	 */
 	private List<String> paramNames;
-	
+
 	/**
 	 * 必填参数列表
 	 */
 	private List<String> requiredParams;
-	
+
 	/**
 	 * 头部参数列表
 	 */
 	private List<String> headParams;
-	
+
 	/**
 	 * 返回的内容格式（仅限直接返回）
 	 */
 	private String responseContentType;
-	
+
 	/**
 	 * 返回的错误信息（仅限直接返回）
 	 */
 	private String responseErrorMsg;
-	
 
 	public String getServiceCode() {
 		return serviceCode;
@@ -137,7 +139,7 @@ public class ServiceEntity {
 	public void setAsync(boolean async) {
 		this.async = async;
 	}
-	
+
 	public boolean isAuthValidate() {
 		return authValidate;
 	}
@@ -185,7 +187,7 @@ public class ServiceEntity {
 	public void setRequiredParams(List<String> requiredParams) {
 		this.requiredParams = requiredParams;
 	}
-	
+
 	public List<String> getHeadParams() {
 		return headParams;
 	}
@@ -211,7 +213,7 @@ public class ServiceEntity {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
 

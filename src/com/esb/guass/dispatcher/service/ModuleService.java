@@ -12,41 +12,44 @@ import com.esb.guass.dispatcher.entity.ModuleEntity;
 
 /**
  * 轨迹服务类
+ * 
  * @author wicks
  */
 public class ModuleService {
 
-private static final String dbName = "db_esb";
-	
+	private static final String dbName = "db_esb";
+
 	private static final String collectionName = "tb_module";
-	
+
 	/**
 	 * 插入数据
+	 * 
 	 * @param entity
 	 */
-	public static void insert(ModuleEntity entity){
-		Document doc = new Document(JSONObject.parseObject(entity.toString())) ;
+	public static void insert(ModuleEntity entity) {
+		Document doc = new Document(JSONObject.parseObject(entity.toString()));
 		MongoDAO.getInstance().secondaryInsert(dbName, collectionName, doc);
 	}
-	
+
 	/**
 	 * 更新数据
+	 * 
 	 * @param entity
 	 */
-	public static void update(ModuleEntity entity){
-		Document doc = new Document(JSONObject.parseObject(entity.toString())) ;
-		Document filter = new Document();  
-    	filter.append("module", entity.getModule());  
+	public static void update(ModuleEntity entity) {
+		Document doc = new Document(JSONObject.parseObject(entity.toString()));
+		Document filter = new Document();
+		filter.append("module", entity.getModule());
 		MongoDAO.getInstance().update(dbName, collectionName, filter, doc);
 	}
-	
+
 	/**
 	 * 查询全部
 	 */
-	public static List<ModuleEntity> findAll(){
+	public static List<ModuleEntity> findAll() {
 		Document sort = new Document();
-    	sort.append("sortNum", 1);
-    	List<Document> docs = MongoDAO.getInstance().findAll(dbName, collectionName, sort);
-    	return JSONArray.parseArray(JSON.toJSONString(docs), ModuleEntity.class);
+		sort.append("sortNum", 1);
+		List<Document> docs = MongoDAO.getInstance().findAll(dbName, collectionName, sort);
+		return JSONArray.parseArray(JSON.toJSONString(docs), ModuleEntity.class);
 	}
 }

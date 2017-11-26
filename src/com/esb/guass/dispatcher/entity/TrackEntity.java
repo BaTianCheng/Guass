@@ -1,19 +1,24 @@
 package com.esb.guass.dispatcher.entity;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSON;
 
 /**
  * 轨迹实体类
+ * 
  * @author wicks
  */
-public class TrackEntity {
+public class TrackEntity implements Serializable{
+
+	private static final long serialVersionUID = 8484566013479966284L;
 
 	private String questId;
-	
+
 	private int no;
-	
+
 	private long time;
-	
+
 	private String message;
 
 	public String getQuestId() {
@@ -47,10 +52,10 @@ public class TrackEntity {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
-	
+
 }

@@ -1,34 +1,39 @@
 package com.esb.guass.dispatcher.entity;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSON;
 import com.esb.guass.common.constant.HttpConstant;
 
 /**
  * 请求选项
+ * 
  * @author wicks
  */
-public class RequestOption {
-	
+public class RequestOption implements Serializable{
+
+	private static final long serialVersionUID = 4256827578161846802L;
+
 	/**
 	 * 字符集
 	 */
 	private String charset = HttpConstant.DEFAULT_CHARSET;
-	
+
 	/**
 	 * 方法
 	 */
 	private String method = HttpConstant.DEFAULT_METHOD;
-	
+
 	/**
 	 * 是否将参数以体的形式传递
 	 */
 	private boolean isBody = false;
-	
+
 	/**
 	 * 超时时间
 	 */
 	private Integer timeOut = HttpConstant.defaultSoTimeout;
-	
+
 	/**
 	 * 业务编号
 	 */
@@ -75,8 +80,8 @@ public class RequestOption {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
-	
+
 }

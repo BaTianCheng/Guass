@@ -12,89 +12,92 @@ import com.esb.guass.dispatcher.entity.TrackEntity;
 
 /**
  * 轨迹服务类
+ * 
  * @author wicks
  */
 public class TrackService {
 
-private static final String dbName = "db_esb";
-	
+	private static final String dbName = "db_esb";
+
 	private static final String collectionName = "tb_track";
-	
+
 	/**
 	 * 记录轨迹
+	 * 
 	 * @param questId
 	 * @param message
 	 */
 	public static void record(String questId, String message) {
-		try{
+		try {
 			TrackEntity entity = new TrackEntity();
 			entity.setQuestId(questId);
 			entity.setTime(System.currentTimeMillis());
 			entity.setMessage(message);
 			insert(entity);
-		}
-		catch(Exception ex){
-			
+		} catch(Exception ex) {
+
 		}
 	}
-	
+
 	/**
 	 * 记录信息类轨迹
+	 * 
 	 * @param questId
 	 * @param message
 	 */
 	public static void recordInfo(String questId, String message) {
-		try{
+		try {
 			TrackEntity entity = new TrackEntity();
 			entity.setQuestId(questId);
 			entity.setTime(System.currentTimeMillis());
 			entity.setMessage(message);
 			entity.setNo(150);
 			insert(entity);
-		}
-		catch(Exception ex){
-			
+		} catch(Exception ex) {
+
 		}
 	}
-	
+
 	/**
 	 * 记录最后一条轨迹
+	 * 
 	 * @param questId
 	 * @param message
 	 */
 	public static void endRecord(String questId, String message) {
-		try{
+		try {
 			TrackEntity entity = new TrackEntity();
 			entity.setQuestId(questId);
 			entity.setTime(System.currentTimeMillis());
 			entity.setMessage(message);
 			entity.setNo(200);
 			insert(entity);
-		}
-		catch(Exception ex){
-			
+		} catch(Exception ex) {
+
 		}
 	}
-	
+
 	/**
 	 * 插入数据
+	 * 
 	 * @param entity
 	 */
-	public static void insert(TrackEntity entity){
-		Document doc = new Document(JSONObject.parseObject(entity.toString())) ;
+	public static void insert(TrackEntity entity) {
+		Document doc = new Document(JSONObject.parseObject(entity.toString()));
 		MongoDAO.getInstance().secondaryInsert(dbName, collectionName, doc);
 	}
-	
+
 	/**
 	 * 查询
+	 * 
 	 * @param questId
 	 */
-	public static List<TrackEntity> find(String questId){
+	public static List<TrackEntity> find(String questId) {
 		Document filter = new Document();
-    	filter.append("questId", questId);
-    	Document sort = new Document();
-    	sort.append("time", 1);
-    	List<Document> docs = MongoDAO.getInstance().findBy(dbName, collectionName, filter, sort);
-    	return JSONArray.parseArray(JSON.toJSONString(docs), TrackEntity.class);
+		filter.append("questId", questId);
+		Document sort = new Document();
+		sort.append("time", 1);
+		List<Document> docs = MongoDAO.getInstance().findBy(dbName, collectionName, filter, sort);
+		return JSONArray.parseArray(JSON.toJSONString(docs), TrackEntity.class);
 	}
 }
