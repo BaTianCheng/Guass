@@ -47,6 +47,7 @@ public class ServiceMangerService {
 			requestEntity.setResponseErrorMsg(serviceEntity.getResponseErrorMsg());
 			requestEntity.setDirectReturn(serviceEntity.isDirectReturn());
 			requestEntity.setAuthValidate(serviceEntity.isAuthValidate());
+			requestEntity.setRecordRequest(serviceEntity.isRecordRequest());
 			if(serviceEntity.getRequestOption() == null) {
 				requestEntity.setRequestOption(new RequestOption());
 			} else {

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * 计划任务实体类
+ * 
  * @author wicks
  */
 public class PlanningJobEntity {
@@ -14,47 +15,47 @@ public class PlanningJobEntity {
 	 * 编号
 	 */
 	private String jobCode;
-	
+
 	/**
 	 * 名称
 	 */
 	private String jobName;
-	
+
 	/**
 	 * 模块
 	 */
 	private String module;
-	
+
 	/**
 	 * 服务编码
 	 */
 	private String serviceCode;
-	
+
 	/**
 	 * 服务名称
 	 */
 	private String serviceName;
-	
+
 	/**
 	 * 创建者
 	 */
 	private Integer creator;
-	
+
 	/**
 	 * 状态（1可用，0不可用）
 	 */
 	private Integer status;
-	
+
 	/**
 	 * 规则（1每天，2每周，3每月）
 	 */
 	private Integer jobRule;
-	
+
 	/**
 	 * 规则的值（每天哪一时间，每周周一，每月哪一天）
 	 */
 	private List<Integer> jobRuleValues;
-	
+
 	/**
 	 * 规则对应的时间（分）
 	 */
@@ -64,17 +65,17 @@ public class PlanningJobEntity {
 	 * 最近执行时间
 	 */
 	private long lastTime;
-	
+
 	/**
 	 * 最近请求任务编号
 	 */
 	private String lastQuestId;
-	
+
 	/**
 	 * 下次执行时间
 	 */
 	private long nextTime;
-	
+
 	/**
 	 * 备注
 	 */
@@ -191,10 +192,10 @@ public class PlanningJobEntity {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
-	
+
 }

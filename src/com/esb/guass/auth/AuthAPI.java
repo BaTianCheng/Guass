@@ -32,6 +32,7 @@ public class AuthAPI {
 				if(visitor.getServiceCodes() != null && visitor.getServiceCodes().contains(entity.getServiceCode())) {
 					if(!SignValidateService.validate(entity, visitor.getAppKey())) {
 						// 签名校验失败
+						LogUtils.info("正确签名："+SignValidateService.getSignValidate(entity, visitor.getAppKey()));
 						return StatusConstant.CODE_301;
 					}
 				} else {

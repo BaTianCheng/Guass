@@ -160,6 +160,24 @@ public class MongoDAO {
 		}
 		return false;
 	}
+	
+	/**
+	 * 插入数据(次要)
+	 * 
+	 * @param dbName
+	 * @param collectionName
+	 * @param doc
+	 * @return
+	 */
+	public boolean secondaryInsert(String dbName, String collectionName, List<Document> docs) {
+		MongoCollection<Document> dbCollection = secondaryMongoClient.getDatabase(dbName).getCollection(collectionName);
+		long num = dbCollection.count();
+		dbCollection.insertMany(docs);
+		if(dbCollection.count() - num > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 更新

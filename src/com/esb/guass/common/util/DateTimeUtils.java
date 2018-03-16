@@ -32,6 +32,14 @@ public final class DateTimeUtils extends org.apache.commons.lang3.time.DateUtils
 	}
 
 	/**
+	 * 得到当前日期字符串 格式（yyyy-MM-dd） pattern可以为："yyyy-MM-dd" "HH:mm:ss" "E"
+	 * @throws ParseException 
+	 */
+	public static Date getDate(String value, String pattern) throws ParseException {
+		return new SimpleDateFormat(pattern).parse(value);
+	}
+	
+	/**
 	 * 获取修正日期
 	 * 
 	 * @param pattern

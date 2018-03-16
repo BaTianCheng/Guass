@@ -77,6 +77,11 @@ public class RequestEntity implements Serializable{
 	 * 是否直接返回结果（同步时无效）
 	 */
 	private boolean directReturn = false;
+	
+	/**
+	 * 是否记录请求
+	 */
+	private boolean recordRequest = true;
 
 	/**
 	 * 状态
@@ -252,6 +257,14 @@ public class RequestEntity implements Serializable{
 
 	public void setDirectReturn(boolean directReturn) {
 		this.directReturn = directReturn;
+	}
+	
+	public boolean isRecordRequest() {
+		return recordRequest;
+	}
+
+	public void setRecordRequest(boolean recordRequest) {
+		this.recordRequest = recordRequest;
 	}
 
 	public String getStatus() {

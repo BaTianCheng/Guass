@@ -18,6 +18,7 @@ import com.esb.guass.common.cache.ehcache.EhCacheService;
 import com.esb.guass.common.constant.ParamConstants;
 import com.esb.guass.common.constant.StatusConstant;
 import com.esb.guass.common.dao.mongo.MongoDAO;
+import com.esb.guass.common.util.LogUtils;
 import com.esb.guass.dispatcher.entity.CommonCondition;
 import com.esb.guass.dispatcher.entity.RequestEntity;
 import com.esb.guass.dispatcher.exception.ParseException;
@@ -46,7 +47,13 @@ public class RequestService {
 		requestEntity.setQuestId(UUID.randomUUID().toString());
 		requestEntity.setRequestTime(System.currentTimeMillis());
 		requestEntity.setStatus(StatusConstant.CODE_1201);
-		requestEntity.setRequestIP(req.getRemoteAddr());
+		
+		//调用方地址优先选用X-Forwarded-For
+		if(Strings.isNullOrEmpty(req.getHeader("X-Forwarded-For"))){
+			requestEntity.setRequestIP(req.getRemoteAddr());
+		} else {
+			requestEntity.setRequestIP(req.getHeader("X-Forwarded-For"));
+		}
 
 		// 参数解析
 		Map<String, String> params = new HashMap<>();
@@ -164,7 +171,11 @@ public class RequestService {
 		MongoDAO.getInstance().update(dbName, collectionName, filter, doc);
 
 		// 更新缓存
-		EhCacheService.setResultCache(entity);
+		try{
+			EhCacheService.setResultCache(entity);
+		} catch(Exception ex){
+			LogUtils.error("缓存更新失败", ex);
+		}
 	}
 
 	/**

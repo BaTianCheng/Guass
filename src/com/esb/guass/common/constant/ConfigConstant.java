@@ -8,7 +8,7 @@ import com.esb.guass.common.util.PropertiesUtils;
 public class ConfigConstant {
 
 	// 最佳线程数目 = （（线程等待时间+线程CPU时间）/线程CPU时间 ）* CPU数目
-	public static int THREADS_MAX_NUM = 2046;
+	public static int THREADS_MAX_NUM = 6000;
 
 	// 监视程序监视间隔
 	public static int MONITOR_INTERVAL = 100;

@@ -115,7 +115,9 @@ public final class ConvertUtils {
 	public static String toMinusString(Object obj){
 		if(obj == null){
 			return null;
-		} else {
+		} if(Strings.isNullOrEmpty(String.valueOf(obj))){
+			return String.valueOf(obj);
+		}else {
 			return "-"+String.valueOf(obj);
 		}
 	}

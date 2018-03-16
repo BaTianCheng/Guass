@@ -131,9 +131,14 @@ public class HttpProtocolHandler {
 		if(request.getMethod().equals(HttpRequest.METHOD_GET)) {
 			method = new GetMethod(request.getUrl());
 			method.getParams().setCredentialCharset(charset);
-			if(request.getQueryString() != null) {
+			
+			if(request.getParameters()==null || request.getParameters().length==0){
+				method.setQueryString(request.getUrl().split("\\?")[1]);
+			}
+			
+			if(!Strings.isNullOrEmpty(request.getQueryString())) {
 				method.setQueryString(request.getQueryString());
-			} else if(request.getParameters() != null) {
+			} else if(request.getParameters() != null && request.getParameters().length > 0) {
 				StringBuilder sb = new StringBuilder();
 				for(NameValuePair pair : request.getParameters()) {
 					sb.append(pair.getName() + "=" + pair.getValue() + "&");
@@ -150,11 +155,17 @@ public class HttpProtocolHandler {
 				RequestEntity re = new InputStreamRequestEntity(is, b.length, "application/soap+xml; charset=utf-8");
 				((PostMethod) method).setRequestEntity(re);
 
-				StringBuilder sb = new StringBuilder();
-				for(NameValuePair pair : request.getParameters()) {
-					sb.append(pair.getName() + "=" + pair.getValue() + "&");
+				if(request.getParameters()==null || request.getParameters().length==0){
+					if(request.getUrl().split("\\?").length>1){
+						method.setQueryString(request.getUrl().split("\\?")[1]);
+					}
+				} else {
+					StringBuilder sb = new StringBuilder();
+					for(NameValuePair pair : request.getParameters()) {
+						sb.append(pair.getName() + "=" + pair.getValue() + "&");
+					}
+					method.setQueryString(sb.toString());
 				}
-				method.setQueryString(sb.toString());
 
 			} else {
 				((PostMethod) method).addParameters(request.getParameters());

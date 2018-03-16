@@ -267,7 +267,11 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
 						requestEntity.getMessage(), 
 						requestEntity);
 				} else {
-					this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
+					if(Strings.isNullOrEmpty(entity.getResult())){
+						this.writeText(resp, entity.getMessage(), entity.getResponseHeaders());
+					} else {
+						this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
+					}
 				}
 			}
 		}

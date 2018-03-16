@@ -1,6 +1,7 @@
 package com.esb.guass.common.util;
 
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -20,7 +21,7 @@ public class PropertiesUtils {
 		Properties pro = new Properties();
 		try {
 			FileInputStream in = new FileInputStream(path);
-			pro.load(in);
+			pro.load(new InputStreamReader(in, "UTF-8"));
 			in.close();
 		} catch(Exception ex) {
 			LogUtils.error("读取属性文件失败", ex);

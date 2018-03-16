@@ -1,5 +1,6 @@
 package com.esb.guass.dispatcher.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -20,6 +21,33 @@ public class TrackService {
 	private static final String dbName = "db_esb";
 
 	private static final String collectionName = "tb_track";
+
+//  定期写入数据库，暂不启用
+//	private static List<Document> documents;
+//	
+//	static{
+//		documents = new ArrayList<>();
+//		
+//		// 每隔五秒插入一次轨迹数据
+//		Thread thread = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				while(true){
+//					try {
+//						Thread.sleep(5000);
+//						synchronized(TrackService.class) {
+//							List<Document> insertDocuments = new ArrayList<>();
+//							insertDocuments.addAll(documents);
+//							
+//						}
+//					} catch(InterruptedException e) {
+//					}
+//				}
+//			}
+//		});
+//		
+//		thread.start();
+//	}
 
 	/**
 	 * 记录轨迹

@@ -23,7 +23,7 @@ public class EhCacheService {
 	/**
 	 * 缓存管理器
 	 */
-	private static CacheManager manager;
+	protected static CacheManager manager;
 
 	/**
 	 * 配置文件路径

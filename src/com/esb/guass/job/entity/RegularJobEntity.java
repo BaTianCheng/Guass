@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * 定时任务实体类
+ * 
  * @author wicks
  */
 public class RegularJobEntity {
@@ -12,37 +13,37 @@ public class RegularJobEntity {
 	 * 编号
 	 */
 	private String jobCode;
-	
+
 	/**
 	 * 名称
 	 */
 	private String jobName;
-	
+
 	/**
 	 * 模块
 	 */
 	private String module;
-	
+
 	/**
 	 * 服务编码
 	 */
 	private String serviceCode;
-	
+
 	/**
 	 * 服务名称
 	 */
 	private String serviceName;
-	
+
 	/**
 	 * 创建者
 	 */
 	private Integer creator;
-	
+
 	/**
 	 * 状态（1可用，0不可用）
 	 */
 	private Integer status;
-	
+
 	/**
 	 * 间隔时间（秒）
 	 */
@@ -52,22 +53,22 @@ public class RegularJobEntity {
 	 * 开始时间（分，如480表示8点）
 	 */
 	private Integer beiginTime;
-	
+
 	/**
 	 * 结束时间（分，如600表示10点）
 	 */
 	private Integer endTime;
-	
+
 	/**
 	 * 最近执行时间
 	 */
 	private long lastTime;
-	
+
 	/**
 	 * 最近请求任务编号
 	 */
 	private String lastQuestId;
-	
+
 	/**
 	 * 备注
 	 */
@@ -120,7 +121,7 @@ public class RegularJobEntity {
 	public void setCreator(Integer creator) {
 		this.creator = creator;
 	}
-	
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -176,10 +177,10 @@ public class RegularJobEntity {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
-	
+
 }

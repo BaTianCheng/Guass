@@ -3,17 +3,17 @@ package com.esb.guass.server.entity;
 import com.alibaba.fastjson.JSON;
 
 public class ResponseResult {
-	
+
 	private String statusCode;
-	
+
 	private String message;
-	
+
 	private String questId;
-	
+
 	private Object data;
-	
+
 	private String chartset;
-	
+
 	private String contentType;
 
 	public String getStatusCode() {
@@ -65,7 +65,7 @@ public class ResponseResult {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return JSON.toJSONString(this);
 	}
 }
