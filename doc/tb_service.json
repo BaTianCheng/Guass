@@ -1,0 +1,24 @@
+﻿{
+  "_id" : ObjectId("5966ea4cb0fcf2135489a9b6"),
+  "module" : "SAP",
+  "serviceCode" : "test-handler",
+  "serviceName" : "测试处理类",
+  "requestType" : "API",
+  "mapUrl" : "com.esb.guass.test.TestHandler",
+  "params" : ["key"],
+  "paramNames" : ["key"]
+}
+{
+  "_id" : ObjectId("59644ba7b0fcf21abc09cd05"),
+  "module" : "SAP",
+  "requestType" : "HTTP",
+  "serviceCode" : "/manger/status/get",
+  "serviceName" : "管理状态",
+  "mapUrl" : "http://localhost:16060/esb/manger/status/get",
+  "async" : false,
+  "requestOption" : {
+    "charset" : "UTF-8",
+    "method" : "GET",
+    "isBody" : false
+  }
+}
