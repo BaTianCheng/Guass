@@ -69,11 +69,11 @@
 
 	<!-- 日志级别 -->
 	<root>
-		<level value="error" />
 		<level value="info" />
 		<appender-ref ref="file" />
 	</root>
 	
+	<!-- 
 	<logger name="com.esb.guass.job">  
     <level value="error" />
 		<level value="info" />
@@ -94,5 +94,6 @@
     <appender-ref ref="invoice_file" />  
     <appender-ref ref="console" />  
 	</logger>
+	 -->
 
 </configuration>  

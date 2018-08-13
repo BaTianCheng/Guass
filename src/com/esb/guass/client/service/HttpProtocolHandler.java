@@ -133,7 +133,9 @@ public class HttpProtocolHandler {
 			method.getParams().setCredentialCharset(charset);
 			
 			if(request.getParameters()==null || request.getParameters().length==0){
-				method.setQueryString(request.getUrl().split("\\?")[1]);
+				if(request.getUrl().contains("?")){
+					method.setQueryString(request.getUrl().split("\\?")[1]);
+				}
 			}
 			
 			if(!Strings.isNullOrEmpty(request.getQueryString())) {

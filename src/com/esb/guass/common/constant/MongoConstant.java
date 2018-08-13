@@ -27,7 +27,7 @@ public class MongoConstant {
 		PORT = Integer.valueOf(properties.getProperty("PORT"));
 		USERNAME = properties.getProperty("USERNAME");
 		PASSWORD = properties.getProperty("PASSWORD");
-		if(!Strings.isNullOrEmpty(properties.getProperty("ENCRYPT"))) {
+		if(!Strings.isNullOrEmpty(properties.getProperty("ENCRYPT")) && "1".equals(properties.getProperty("ENCRYPT"))) {
 			Encode encode = new Encode("hhxxttxs");
 			PASSWORD = encode.DecryptionStringData(MongoConstant.PASSWORD);
 		}
