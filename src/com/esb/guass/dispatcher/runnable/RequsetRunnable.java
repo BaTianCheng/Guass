@@ -44,7 +44,7 @@ public class RequsetRunnable implements Runnable {
 					// 执行处理程序成功
 					if(result.getStatusCode().equals(StatusConstant.CODE_200)) {
 						requestEntity.setStatus(StatusConstant.CODE_1203);
-						requestEntity.setResult(result.getMessage());
+						requestEntity.setResult(result.getData());
 						RequestService.update(requestEntity);
 						TrackService.endRecord(requestEntity.getQuestId(), StatusConstant.CODE_1203_MSG);
 					} else {

@@ -32,7 +32,7 @@ public class ServiceServlet extends BaseSerlvet {
 	 * @throws IOException
 	 */
 	@AuthIgnore
-	@WebMapping(url = "/services/get", comment = "获取ESB服务项")
+	@WebMapping(url = "/services/access", comment = "访问ESB服务项")
 	public void getService(HttpRequest req, HttpResponse resp) throws IOException {
 		if(Strings.isNullOrEmpty(req.getParameter(ParamConstants.PARAM_SERVICECODE))) {
 			this.writeErrorResult(resp, StatusConstant.CODE_400, StatusConstant.CODE_400_MSG, null);
@@ -79,7 +79,7 @@ public class ServiceServlet extends BaseSerlvet {
 	 * @throws IOException
 	 */
 	@AuthIgnore
-	@WebMapping(url = "/services/auto/", comment = "获取ESB服务项")
+	@WebMapping(url = "/services/auto/", comment = "访问ESB服务项")
 	public void getServiceByPath(HttpRequest req, HttpResponse resp) throws IOException {
 		String[] pathSplits = req.getRequestURI().split("/services/auto");
 		if(pathSplits != null && pathSplits.length >= 2) {

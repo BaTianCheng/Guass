@@ -258,7 +258,7 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
 			if(entity == null) {
 				this.writeErrorResult(resp, StatusConstant.CODE_500, StatusConstant.CODE_500_MSG, requestEntity);
 			} else if(entity.getStatus().equals(StatusConstant.CODE_1203)) {
-				this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
+				this.writeSuccessResult(resp, entity.getResult(), entity.getMessage(), entity.getQuestId());
 			} else {
 				if(Strings.isNullOrEmpty(entity.getResponseErrorMsg())) {
 					this.writeErrorResult(
@@ -268,9 +268,9 @@ public class BaseSerlvet extends org.redkale.net.http.HttpBaseServlet {
 						requestEntity);
 				} else {
 					if(Strings.isNullOrEmpty(entity.getResult())){
-						this.writeText(resp, entity.getMessage(), entity.getResponseHeaders());
+						this.writeSuccessResult(resp, entity.getResult(), entity.getMessage(), entity.getQuestId());
 					} else {
-						this.writeText(resp, entity.getResult(), entity.getResponseHeaders());
+						this.writeSuccessResult(resp, entity.getResult(), entity.getMessage(), entity.getQuestId());
 					}
 				}
 			}
