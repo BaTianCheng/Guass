@@ -5,6 +5,11 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.X509TrustManager;
 
+/**
+ * MyX509认证
+ * @author wicks
+ *
+ */
 public class MyX509TrustManager implements X509TrustManager {
 
 	public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
